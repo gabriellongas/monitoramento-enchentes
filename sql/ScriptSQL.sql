@@ -8,7 +8,7 @@ CREATE TABLE TipoUser (
 );
 
 INSERT INTO TipoUser (desc_tipoUser) VALUES('Admin')
-INSERT INTO TipoUser (desc_tipoUser) VALUES('Usuário')
+INSERT INTO TipoUser (desc_tipoUser) VALUES('Usuï¿½rio')
 
 CREATE TABLE Usuarios (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -16,7 +16,6 @@ CREATE TABLE Usuarios (
 	Email varchar(max) NOT NULL,
 	Senha varchar(max) NOT NULL,
 	Imagem varbinary(max) NULL,
-	DataCadastro date NOT NULL,
 	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
 );
 
@@ -51,7 +50,7 @@ CREATE TABLE Registros (
 );
 
 ---------------------------------------------------------------------------------------------------------
----> Procedures genéricas
+---> Procedures genï¿½ricas
 USE db_sme
   
 create procedure spDelete
@@ -103,7 +102,7 @@ end
 GO
 
 ------------------------------------------------------------------------------------------------------------
--- Procedures usuário
+-- Procedures usuï¿½rio
 
 create procedure spInsert_Usuarios
 (
