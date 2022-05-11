@@ -111,15 +111,14 @@ create procedure spInsert_Usuarios
 	@Email varchar(max),
 	@Senha varchar(max),
 	@Imagem varbinary(max),
-	@DataCadastro date,
 	@TipoUsuario int 
 )
 as
 begin
 	insert into Usuarios
-	(id_Usuario , Nome, Email, Senha, Imagem, DataCadastro, TipoUsuario)
+	(id_Usuario , Nome, Email, Senha, Imagem, TipoUsuario)
 	values
-	(@Id, @Nome, @Email, @Senha, @Imagem, @DataCadastro, @TipoUsuario)
+	(@Id, @Nome, @Email, @Senha, @Imagem, @TipoUsuario)
 end
 GO
 
@@ -130,7 +129,6 @@ create procedure spUpdate_Usuarios
 	@Email varchar(max),
 	@Senha varchar(max),
 	@Imagem varbinary(max),
-	@DataCadastro date,
 	@TipoUsuario int 
 )
 as
@@ -139,7 +137,6 @@ begin
 		Nome = @nome,
 		Email = @Email,
 		Senha = @Senha,
-		DataCadastro = @DataCadastro,
 		TipoUsuario = @TipoUsuario
 	where id_Usuario = @id 
 end
