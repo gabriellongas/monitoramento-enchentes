@@ -33,8 +33,8 @@ namespace SistemaMonitoramento.DAO
         {
             var p = new SqlParameter[]
             {
-                 new SqlParameter("id", id),
-                 new SqlParameter("tabela", Tabela)
+                 new SqlParameter("Id", id),
+                 new SqlParameter("Tabela", Tabela)
             };
             HelperDAO.ExecutaProc("spDelete", p);
         }
@@ -43,8 +43,8 @@ namespace SistemaMonitoramento.DAO
         {
             var p = new SqlParameter[]
             {
-                new SqlParameter("id", id),
-                new SqlParameter("tabela", Tabela)
+                new SqlParameter("Id", id),
+                new SqlParameter("Tabela", Tabela)
             };
             var tabela = HelperDAO.ExecutaProcSelect("spConsulta", p);
             if (tabela.Rows.Count == 0)
@@ -57,7 +57,7 @@ namespace SistemaMonitoramento.DAO
         {
             var p = new SqlParameter[]
             {
-                new SqlParameter("tabela", Tabela)
+                new SqlParameter("Tabela", Tabela)
             };
             var tabela = HelperDAO.ExecutaProcSelect("spProximoId", p);
             return Convert.ToInt32(tabela.Rows[0][0]);
@@ -67,7 +67,7 @@ namespace SistemaMonitoramento.DAO
         {
             var p = new SqlParameter[]
             {
-                new SqlParameter("tabela", Tabela),
+                new SqlParameter("Tabela", Tabela),
                 new SqlParameter("Ordem", "1")
             };
             var tabela = HelperDAO.ExecutaProcSelect(NomeSpListagem, p);
@@ -76,5 +76,5 @@ namespace SistemaMonitoramento.DAO
                 lista.Add(MontaModel(registro));
             return lista;
         }
-    }    
+    }
 }

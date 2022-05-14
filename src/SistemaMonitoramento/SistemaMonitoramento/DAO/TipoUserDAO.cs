@@ -10,7 +10,7 @@ namespace SistemaMonitoramento.DAO
         protected override SqlParameter[] CriaParametros(TipoUserViewModel model)
         {
             SqlParameter[] parametros = new SqlParameter[5];
-            parametros[0] = new SqlParameter("id_TipoUser", model.Id);
+            parametros[0] = new SqlParameter("id", model.Id);
             parametros[1] = new SqlParameter("desc_tipoUser", model.Descricao);
 
             return parametros;
@@ -20,7 +20,7 @@ namespace SistemaMonitoramento.DAO
         {
             TipoUserViewModel tu = new TipoUserViewModel();
 
-            tu.Id = Convert.ToInt32(registro["id_TipoUser"]);
+            tu.Id = Convert.ToInt32(registro["id"]);
             tu.Descricao = registro["desc_tipoUser"].ToString();
             
             return tu;
@@ -29,6 +29,6 @@ namespace SistemaMonitoramento.DAO
         protected override void SetTabela()
         {
             Tabela = "TipoUser";
-            }
+        }
     }
 }

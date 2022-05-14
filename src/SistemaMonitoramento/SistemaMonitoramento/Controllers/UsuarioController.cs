@@ -20,22 +20,33 @@ namespace SistemaMonitoramento.Controllers
 
             if (string.IsNullOrEmpty(model.Email))
                 ModelState.AddModelError("Email", "Preencha o E-mail!");
+            else if (model.Email.IndexOf("@") == -1 || model.Email.IndexOf(".") == -1)
+                ModelState.AddModelError("Email", "E-mail incorreto, falta uso do @ ou .");
 
-            if (model.Email.IndexOf("@") == -1)
-                ModelState.AddModelError("Email", "E-mail incorreto!");
+            if (((UsuarioDAO)DAO).ConsultaPorUsuario(model.Email) != null)
+                ModelState.AddModelError("Email", "E-mail já cadastrado!");
 
             if (string.IsNullOrEmpty(model.Senha))
                 ModelState.AddModelError("Senha", "Preencha a senha!");
+            else if (string.IsNullOrEmpty(model.ConfirmaSenha))
+                ModelState.AddModelError("ConfirmaSenha", "Preencha o confirme a senha!");
+            else if (model.Senha != model.ConfirmaSenha)
+            {
+                ModelState.AddModelError("Senha", "Senhas não conferem");
+                ModelState.AddModelError("ConfirmaSenha", "Senhas não conferem");
+            }
 
-            if (model.ImagemEmByte == null && operacao == "I")
-                ModelState.AddModelError("ImagemEmByte", "Escolha uma foto de perfil.");
+            if (model.TipoUsuario <= 0)
+                ModelState.AddModelError("TipoUsuario", "Selecione o tipo de usuário");
+
+            if (model.Imagem == null && operacao == "I")
+                ModelState.AddModelError("Imagem", "Escolha uma imagem.");
 
             if (model.ImagemEmByte != null && model.ImagemEmByte.Length / 1024 / 1024 >= 5)
                 ModelState.AddModelError("ImagemEmByte", "Foto de perfil limitado a 5 mb.");
 
             if (ModelState.IsValid)
             {
-                //na alteração, se não foi informada a imagem, iremos manter a que já estava salva.
                 if (operacao == "A" && model.Imagem == null)
                 {
                     UsuarioViewModel u = DAO.Consulta(model.Id);
@@ -63,26 +74,8 @@ namespace SistemaMonitoramento.Controllers
             try
             {
                 ViewBag.Operacao = "I";
-                UsuarioViewModel model = Activator.CreateInstance(typeof(UsuarioViewModel)) as UsuarioViewModel;
-                PreencheDadosParaView("I", model);
-                ListaTipoUsersParaView();
-                return View(NomeViewForm, model);
-            }
-            catch (Exception erro)
-            {
-                return View("Error", new ErrorViewModel(erro.ToString()));
-            }
-        }
-
-        public override IActionResult Create()
-        {
-            try
-            {
-                ViewBag.Operacao = "I";
                 UsuarioViewModel model = new UsuarioViewModel();
-                base.PreencheDadosParaView("I", model);
-                ListaTipoUsersParaView();
-
+                PreencheDadosParaView("I", model);
                 return View(NomeViewForm, model);
             }
             catch (Exception erro)
@@ -91,25 +84,10 @@ namespace SistemaMonitoramento.Controllers
             }
         }
 
-        public override IActionResult Edit(int id)
+        protected override void PreencheDadosParaView(string Operacao, UsuarioViewModel model)
         {
-            try
-            {
-                ViewBag.Operacao = "A";
-                var model = DAO.Consulta(id);
-                ListaTipoUsersParaView();
-                if (model == null)
-                    return RedirectToAction(NomeViewIndex);
-                else
-                {
-                    PreencheDadosParaView("A", model);
-                    return View(NomeViewForm, model);
-                }
-            }
-            catch (Exception erro)
-            {
-                return View("Error", new ErrorViewModel(erro.ToString()));
-            }
+            base.PreencheDadosParaView(Operacao, model);
+            ListaTipoUsersParaView();
         }
 
         protected void ListaTipoUsersParaView()
@@ -125,6 +103,12 @@ namespace SistemaMonitoramento.Controllers
                 listaTipoUsers.Add(item);
             }
             ViewBag.TipoUsers = listaTipoUsers;
+        }
+
+        public override IActionResult Save(UsuarioViewModel model, string Operacao)
+        {
+            DAO = new UsuarioDAO();
+            return base.Save(model, Operacao);
         }
 
     }

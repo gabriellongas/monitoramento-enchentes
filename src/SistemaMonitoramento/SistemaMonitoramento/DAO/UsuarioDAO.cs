@@ -1,4 +1,4 @@
-﻿using SistemaMonitoramento.Models;
+﻿    using SistemaMonitoramento.Models;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,14 +9,16 @@ namespace SistemaMonitoramento.DAO
     {
         protected override SqlParameter[] CriaParametros(UsuarioViewModel model)
         {
+            object imgByte = model.ImagemEmByte;
+            if (imgByte == null)
+                imgByte = DBNull.Value;
+
             SqlParameter[] parametros = new SqlParameter[5];
-            parametros[0] = new SqlParameter("Id", model.Id);
-            parametros[1] = new SqlParameter("Nome", model.Nome);
-            parametros[2] = new SqlParameter("Email", model.Email);
-            parametros[3] = new SqlParameter("Senha", model.Senha);
-            parametros[4] = new SqlParameter("DataCadastro", model.DataCadastro);
-            parametros[5] = new SqlParameter("TipoUsuario", model.TipoUsuario);
-            parametros[6] = new SqlParameter("ImagemEmByte", model.ImagemEmByte);
+            parametros[0] = new SqlParameter("Nome", model.Nome);
+            parametros[1] = new SqlParameter("Email", model.Email);
+            parametros[2] = new SqlParameter("Senha", model.Senha);
+            parametros[3] = new SqlParameter("TipoUsuario", model.TipoUsuario);
+            parametros[4] = new SqlParameter("Imagem", imgByte);
 
             return parametros;
         }
@@ -29,9 +31,10 @@ namespace SistemaMonitoramento.DAO
             u.Nome = registro["Nome"].ToString();
             u.Email = registro["Email"].ToString();
             u.Senha = registro["Senha"].ToString();
-            u.DataCadastro = Convert.ToDateTime(registro["DataCadastro"]);
             u.TipoUsuario = Convert.ToInt32(registro["TipoUsuario"]);
-            u.ImagemEmByte = registro["ImagemEmByte"] as byte[];
+
+            if (registro["imagem"] != DBNull.Value)
+                u.ImagemEmByte = registro["Imagem"] as byte[];
 
             return u;
         }
@@ -41,13 +44,13 @@ namespace SistemaMonitoramento.DAO
             Tabela = "Usuarios";
         }
 
-        public UsuarioViewModel ConsultaPorUsuario(string usuarioString)
+        public UsuarioViewModel ConsultaPorUsuario(string email)
         {
             var u = new SqlParameter[]
             {
-                new SqlParameter("Usuario", usuarioString),
+                new SqlParameter("Email", email),
             };
-            var tabela = HelperDAO.ExecutaProcSelect("spConsulta_PorUsuario", u);
+            var tabela = HelperDAO.ExecutaProcSelect("spConsulta_PorEmail", u);
             if (tabela.Rows.Count == 0)
                 return null;
             else

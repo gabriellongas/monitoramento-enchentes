@@ -1,6 +1,8 @@
 CREATE DATABASE db_sme
+go
 
-USE db_sme
+use db_sme
+go
 
 CREATE TABLE TipoUser (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -8,7 +10,7 @@ CREATE TABLE TipoUser (
 );
 
 INSERT INTO TipoUser (desc_tipoUser) VALUES('Admin')
-INSERT INTO TipoUser (desc_tipoUser) VALUES('Usu�rio')
+INSERT INTO TipoUser (desc_tipoUser) VALUES('Usuário')
 
 CREATE TABLE Usuarios (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -18,6 +20,7 @@ CREATE TABLE Usuarios (
 	Imagem varbinary(max) NULL,
 	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
 );
+
 
 CREATE TABLE TipoVias (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -50,9 +53,8 @@ CREATE TABLE Registros (
 );
 
 ---------------------------------------------------------------------------------------------------------
----> Procedures gen�ricas
-USE db_sme
-  
+---> Procedures genéricas
+
 create procedure spDelete
 (
 	@id int ,
@@ -66,6 +68,7 @@ begin
 	exec(@sql)
 end
 GO
+
 create procedure spConsulta
 (
 	@id int ,
@@ -79,6 +82,7 @@ begin
 	exec(@sql)
 end
 GO
+
 create procedure spListagem
 (
  @tabela varchar(max),
@@ -90,6 +94,7 @@ begin
 	' order by ' + @ordem)
 end
 GO
+
 create procedure spProximoId
 (
 	@tabela varchar(max)
@@ -102,11 +107,10 @@ end
 GO
 
 ------------------------------------------------------------------------------------------------------------
--- Procedures usu�rio
+-- Procedures usuário
 
 create procedure spInsert_Usuarios
 (
-	@Id int,
 	@Nome varchar(max),
 	@Email varchar(max),
 	@Senha varchar(max),
@@ -116,9 +120,9 @@ create procedure spInsert_Usuarios
 as
 begin
 	insert into Usuarios
-	(id_Usuario , Nome, Email, Senha, Imagem, TipoUsuario)
+	(Nome, Email, Senha, Imagem, TipoUsuario)
 	values
-	(@Id, @Nome, @Email, @Senha, @Imagem, @TipoUsuario)
+	(@Nome, @Email, @Senha, @Imagem, @TipoUsuario)
 end
 GO
 
@@ -138,6 +142,16 @@ begin
 		Email = @Email,
 		Senha = @Senha,
 		TipoUsuario = @TipoUsuario
-	where id_Usuario = @id 
+	where Id = @id 
+end
+GO
+
+create procedure spConsulta_PorEmail
+(
+	@email varchar(max)
+)
+as
+begin
+	select * from Usuarios where Email = @email
 end
 GO

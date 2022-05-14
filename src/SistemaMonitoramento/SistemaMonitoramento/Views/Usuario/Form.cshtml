@@ -20,10 +20,9 @@
 </head>
 <body>
 @model UsuarioViewModel
-<input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
-<label for="Id" class="control-label">ID</label>
 
-<form asp-action="Save" method="post" >
+<form asp-action="Save" enctype="multipart/form-data">
+    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
 
         <div class="container">
 
@@ -41,62 +40,57 @@
                             <form class="user">
                                 <div class="form-group row">
                                     <div class="col-7 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                               value="@Model.Nome" placeholder="Nome">
+                                        <input type="text" Name="Nome" value="@Model.Nome" class="form-control form-control-user" placeholder="Nome..."/>
+                                        <span asp-validation-for="Nome" class="text-danger"></span>
                                     </div>
                                     <div class="col-5">                                     
-                                         <select asp-for="TipoUsuario" asp-items="ViewBag.TipoUsers" class="form-control"> </select>
+                                         <select asp-for="TipoUsuario" asp-items="ViewBag.TipoUsers" class="form-control"></select>
                                          <span asp-validation-for="TipoUsuario" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-7 mb-3 mb-sm-0">
-                                        <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                           value="@Model.Email" placeholder="E-mail">
-                                    </div>
-                                    <div class="col-5">                                     
-                                         <input type="date" Name="DataCadastro" value="@DateTime.Now.ToString("yyyy-MM-dd")" placeholder="Data de Cadastro" class="form-control" />
-                                        <span asp-validation-for="DataCadastro" class="text-danger"></span>
+                                        <input type="email" Name="Email" value="@Model.Email" class="form-control form-control-user" placeholder="E-mail"/>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                    
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                               value="@Model.Senha" id="exampleInputPassword" placeholder="Senha">
+                                        <input type="password" name="Senha" value="@Model.Senha" class="form-control form-control-user" placeholder="Senha"/>                                       
+                                        <span asp-validation-for="Senha" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                               value="@Model.Senha" id="exampleRepeatPassword" placeholder="Repita a Senha">
+                                        <input type="password" name="ConfirmaSenha" value="@Model.ConfirmaSenha" class="form-control form-control-user" placeholder="Confirme a senha..."/>                                       
+                                        <span asp-validation-for="Senha" class="text-danger"></span>
                                     </div>
                                 </div>
-                                 <div class="form-group row text-center">
+                                <div class="form-group row text-center">
                                     <div class="col-12">
-                                           <input type="file" name="Imagem" id="Imagem" onchange="exibirImagem()" class="btn btn-secondary">
-                                            <img id="imgPreview" src="data:image/jpeg;base64,@Model.ImagemEmBase64" class="img-responsive" width="100">
-                                            <span asp-validation-for="Imagem" class="text-danger"></span>
-                                   </div>                                 
+                                        <br />
+                                        <input type="file" name="Imagem" id="Imagem" onchange="exibirImagem()" class="btn btn-secondary">
+                                        <img id="imgPreview" src="data:image/jpeg;base64,@Model.ImagemEmBase64" class="img-responsive"
+                                        width="100">
+                                        <span asp-validation-for="Imagem" class="text-danger"></span>
+                                   </div>                            
                                 </div>
 
-                              
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Registre a Conta
-                                </a>
+                                <input type="submit" value="Registre uma Conta" class="btn btn-primary btn-user btn-block" />
                             </form>
                             <hr>
                             <div class="text-center">
                                 <a class="small" href="forgot-password.html">Esqueceu a Senha?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="login.html">Já tem uma conta? Login!</a>
+                                <a class="small" href="/Login/Index">Já tem uma conta? Login!</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</form>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -108,7 +102,6 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-</form>
 
 <script>
  function exibirImagem() {
@@ -123,7 +116,3 @@
 </body>
 
 </html>
-
-
-
-

@@ -8,7 +8,7 @@ namespace SistemaMonitoramento.Controllers
     public class PadraoController <T> : Controller where T : PadraoViewModel
     {
         protected PadraoDAO<T> DAO { get; set; }
-        protected bool GeraProximoId { get; set; }
+        protected bool GeraProximoId { get; set; } //somente para visualização
         protected string NomeViewIndex { get; set; } = "Index";
         protected string NomeViewForm { get; set; } = "Form";
 
@@ -63,7 +63,12 @@ namespace SistemaMonitoramento.Controllers
                         DAO.Insert(model);
                     else
                         DAO.Update(model);
-                    return RedirectToAction(NomeViewForm);
+
+                    if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
+                        return RedirectToAction("Index", "Login");
+
+                    //Mudar quando tiver a tela para administrador editar os dados
+                    return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception erro)
@@ -75,15 +80,13 @@ namespace SistemaMonitoramento.Controllers
         protected virtual void ValidaDados(T model, string operacao)
         {
             ModelState.Clear();
-            if (operacao == "A" && DAO.Consulta(model.Id) == null)
-                ModelState.AddModelError("Id", "Este registro não existe!");
             if (operacao == "I" && DAO.Consulta(model.Id) != null)
                 ModelState.AddModelError("Id", "Código já está em uso!");
-            if (model.Id <= 0)
-                ModelState.AddModelError("Id", "Id inválido!");
+            if (operacao == "A" && DAO.Consulta(model.Id) == null)
+                ModelState.AddModelError("Id", "Este registro não existe!");
         }
 
-        public virtual IActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             try
             {

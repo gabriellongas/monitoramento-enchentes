@@ -6,6 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Login\login.cshtml" />
+    <Content Remove="Views\Menu\dashboard-enchente.cshtml" />
+    <Content Remove="Views\Menu\menu.cshtml" />
+    <Content Remove="Views\Menu\sobre.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Login\Login.cshtml" />
+    <None Include="Views\Menu\dashboard-enchente.cshtml" />
+    <None Include="Views\Menu\menu.cshtml" />
+    <None Include="Views\Menu\Sobre.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.21" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
