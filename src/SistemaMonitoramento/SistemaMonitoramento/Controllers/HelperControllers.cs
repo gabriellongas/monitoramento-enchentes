@@ -4,7 +4,7 @@ using System;
 
 namespace SistemaMonitoramento.Controllers
 {
-    public static class HelperControllers 
+    public static class HelperControllers
     {
         public static Boolean VerificaUserLogado(ISession session)
         {
@@ -14,6 +14,5 @@ namespace SistemaMonitoramento.Controllers
             else
                 return true;
         }
-
     }
 }

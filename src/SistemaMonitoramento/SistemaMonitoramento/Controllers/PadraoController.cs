@@ -11,6 +11,7 @@ namespace SistemaMonitoramento.Controllers
         protected bool GeraProximoId { get; set; } //somente para visualização
         protected string NomeViewIndex { get; set; } = "Index";
         protected string NomeViewForm { get; set; } = "Form";
+        protected bool ExigeAutenticacao { get; set; } = false;
 
         public virtual IActionResult Index()
         {

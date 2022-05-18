@@ -11,6 +11,11 @@ namespace SistemaMonitoramento.Controllers
 {
     public class UsuarioController : PadraoController<UsuarioViewModel>
     {
+        public UsuarioController()
+        {
+            DAO = new UsuarioDAO();
+        }
+        
         protected override void ValidaDados(UsuarioViewModel model, string operacao)
         {
             base.ValidaDados(model, operacao);
@@ -107,7 +112,6 @@ namespace SistemaMonitoramento.Controllers
 
         public override IActionResult Save(UsuarioViewModel model, string Operacao)
         {
-            DAO = new UsuarioDAO();
             return base.Save(model, Operacao);
         }
 

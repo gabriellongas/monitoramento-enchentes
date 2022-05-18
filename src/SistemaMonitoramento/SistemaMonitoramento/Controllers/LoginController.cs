@@ -28,7 +28,6 @@ namespace SistemaMonitoramento.Controllers
                     ViewBag.Erro = "Usuário/Senha inválido";
                 else
                 {
-                    ViewBag.Usuario = model;
                     HttpContext.Session.SetString("Logado", "true");
                     return RedirectToAction("Index", "Menu");
                 }
