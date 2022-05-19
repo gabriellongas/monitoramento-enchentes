@@ -18,6 +18,7 @@ CREATE TABLE Usuarios (
 	Email varchar(max) NOT NULL,
 	Senha varchar(max) NOT NULL,
 	Imagem varbinary(max) NULL,
+	DataCriacao date NOT NULL,
 	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
 );
 
