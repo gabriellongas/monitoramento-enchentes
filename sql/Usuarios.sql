@@ -1,19 +1,4 @@
-CREATE TABLE TipoUser (
-	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	desc_tipoUser varchar (max) NOT NULL,
-);
-
-INSERT INTO TipoUser (desc_tipoUser) VALUES('Admin')
-INSERT INTO TipoUser (desc_tipoUser) VALUES('Usuário')
-
-CREATE TABLE Usuarios (
-	Nome varchar (max) NOT NULL,
-	Email varchar(max) NOT NULL,
-	Senha varchar(max) NOT NULL,
-	Imagem varbinary(max) NULL,
-	DataCriacao date NOT NULL,
-	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
-);
+use db_sme
 
 INSERT INTO Usuarios (Nome, Email, Senha, DataCriacao, TipoUsuario) VALUES ('Miguel dos Santos' , 'miguel-santos@gmail.com' , 12345 , '2021-10-02', 1 );
 INSERT INTO Usuarios (Nome, Email, Senha, DataCriacao, TipoUsuario) VALUES ('Sophia Maria' , 'sophia_maria@gmail.com' , 12345 , '2021-10-05' , 2 );

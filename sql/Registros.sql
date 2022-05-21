@@ -1,16 +1,4 @@
 
-CREATE TABLE Sensores (
-	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	idRegiao int NOT NULL FOREIGN KEY REFERENCES Regiao(id)
-);
-
-CREATE TABLE Registros (
-	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	idSensor int NOT NULL FOREIGN KEY REFERENCES Sensores(id),
-	Nivel int NOT NULL,
-	DataHora datetime NOT NULL
-);
-
 INSERT INTO Sensores(idRegiao)VALUES(1)
 INSERT INTO Sensores(idRegiao)VALUES(2)
 INSERT INTO Sensores(idRegiao)VALUES(3)
@@ -31,6 +19,8 @@ INSERT INTO Sensores(idRegiao)VALUES(17)
 INSERT INTO Sensores(idRegiao)VALUES(18)
 INSERT INTO Sensores(idRegiao)VALUES(19)
 INSERT INTO Sensores(idRegiao)VALUES(20)
+
+select * from Sensores
 
 set dateformat ymd
 INSERT INTO Registros (idSensor, Nivel, DataHora) VALUES (1,25,'2021-05-26 14:25:30.123');
@@ -233,7 +223,6 @@ INSERT INTO Registros (idSensor, Nivel, DataHora) VALUES (17,40,'2022-05-19 16:5
 INSERT INTO Registros (idSensor, Nivel, DataHora) VALUES (18,25,'2022-05-19 23:00:17.164');
 INSERT INTO Registros (idSensor, Nivel, DataHora) VALUES (19,25,'2022-05-19 23:40:00.147');
 INSERT INTO Registros (idSensor, Nivel, DataHora) VALUES (20,25,'2022-05-19 23:57:16.689');
-
 
 select * from Registros
 

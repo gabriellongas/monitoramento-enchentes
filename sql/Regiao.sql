@@ -1,13 +1,4 @@
-CREATE TABLE Regiao (
-	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	Nome varchar(max) NOT NULL,
-	Endereco varchar(max) NOT NULL,
-	Numero int NOT NULL,
-	Bairro varchar(max) NOT NULL,
-	Cidade varchar(max) NOT NULL,
-	Estado varchar(max) NOT NULL,
-	CEP varchar (max) NOT NULL,
-	);
+use db_sme
 
 INSERT INTO Regiao (Nome, Endereco, Numero, Bairro, Cidade, Estado, CEP) VALUES ('Jamil Zarif' , 'Rua Jamil João Zarif' , 1378 , 'Jardim Santa Vicencia' , 'Guarulhos' , 'São Paulo' , '07143-000')
 INSERT INTO Regiao (Nome, Endereco, Numero, Bairro, Cidade, Estado, CEP) VALUES ('23 de Maio' , 'Avenida 23 de Maio' , 2952 , 'Vila Mariana' , 'São Paulo' , 'São Paulo' , '04008-000')

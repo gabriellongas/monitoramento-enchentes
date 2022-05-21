@@ -30,7 +30,7 @@ CREATE TABLE Regiao (
 	Bairro varchar(max) NOT NULL,
 	Cidade varchar(max) NOT NULL,
 	Estado varchar(max) NOT NULL,
-	CEP int NOT NULL,
+	CEP varchar (max) NOT NULL
 );
 
 CREATE TABLE Sensores (
@@ -45,12 +45,11 @@ CREATE TABLE Registros (
 	DataHora datetime NOT NULL
 );
 
-CREATE TABLE Usuario_Regiao(
+CREATE TABLE Usuario_Regiao (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	idUsuario int NOT NULL FOREIGN KEY REFERENCES Usuarios(id),
 	idRegiao int NOT NULL FOREIGN KEY REFERENCES Regiao(id)
 );
-
 
 
 ---------------------------------------------------------------------------------------------------------
