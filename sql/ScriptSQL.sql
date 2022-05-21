@@ -156,3 +156,19 @@ begin
 	select * from Usuarios where Email = @email
 end
 GO
+
+------------------------------------------------------------------------------------------------------------
+--Procedures Sensores
+create procedure spInsert_Registros
+(
+	@idSensor int,
+	@Nivel int,
+	@DataHora datetime	
+)
+as
+begin
+	insert into Registros 
+	(idSensor, Nivel, DataHora)
+	values
+	(@idSensor, @Nivel, @DataHora)
+end
