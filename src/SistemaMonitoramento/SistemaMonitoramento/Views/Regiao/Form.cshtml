@@ -21,7 +21,7 @@
 <script>
     function buscaCEP() {
         var cep = document.getElementById("cep").value;
-        cep = cep.replace('-', ''); // removemos o traço do CEP
+        cep = cep.replace('-', '');
         if (cep.length > 0) {
             var linkAPI = 'https://viacep.com.br/ws/' + cep + '/json/';
             $.ajax({
@@ -33,7 +33,7 @@
                     document.getElementById("uf").value = '...';
                 },
                 success: function (dados) {
-                    if (dados.erro != undefined) // quando o CEP não existe...
+                    if (dados.erro != undefined)
                     {
                         alert('CEP não localizado...');
                         document.getElementById("logradouro").value = '';

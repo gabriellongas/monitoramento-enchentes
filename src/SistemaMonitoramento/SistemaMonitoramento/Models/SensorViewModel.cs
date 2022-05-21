@@ -1,8 +1,7 @@
 ﻿namespace SistemaMonitoramento.Models
 {
-    public class SensorViewModel
+    public class SensorViewModel : PadraoViewModel
     {
-        public int Id { get; set; }
         public int IdRegiao { get; set; }
     }
 }

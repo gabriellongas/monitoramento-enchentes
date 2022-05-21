@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SistemaMonitoramento.DAO;
+using SistemaMonitoramento.Models;
+using System.Collections.Generic;
 
 namespace SistemaMonitoramento.Controllers
 {
@@ -10,7 +13,9 @@ namespace SistemaMonitoramento.Controllers
         public IActionResult Index()
         {
             ViewBag.Logado = HelperControllers.VerificaUserLogado(HttpContext.Session);
-            return View("Menu");
+
+            ListaRegioesParaView();
+            return View("Menu-principal");
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -28,6 +33,16 @@ namespace SistemaMonitoramento.Controllers
         {
             return View("Sobre");
         }
+
+        public void ListaRegioesParaView()
+        {
+            RegiaoDAO dao = new RegiaoDAO();
+            List<RegiaoViewModel> listaRegioes = dao.Listagem();
+
+            if (listaRegioes.Count > 0)
+                ViewBag.Regioes = listaRegioes;
+        }
+
 
     }
 

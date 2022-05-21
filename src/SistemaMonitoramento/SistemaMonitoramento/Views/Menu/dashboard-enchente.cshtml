@@ -1,3 +1,7 @@
+@{
+    Layout = "_Layout";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,163 +24,149 @@
 
 </head>
 
-<body id="page-top">
-     
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+<body>
+    <form asp-action="DashBoardEnchente">
+        <!-- Main Content -->
+        <div id="content">
 
-        
-        <!-- End of Sidebar -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Marginal Pinheiros</h1>
+                </div>
 
-            <!-- Main Content -->
-            <div id="content">
+                <!-- Content Row -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Marginal Pinheiros</h1>
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-                        <div class="card shadow col-12 mb-4">
-                            <div class="card-header">
-                                <h6 class="m-0 font-weight-bold text-primary">
-                                    <div class="col-3 float-left"> Situação Atual </div>
-                                    <div class="col-7 float-right">Endereço</div>
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-1">
-                                    <div class="progress progress-bar-vertical">
-                                        <div id="current_situation" class="progress-bar bg-warning"
-                                             role="progressbar"
-                                             aria-valuenow="60"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"
-                                             style="height: 50%;">
-                                        </div>
+                <div class="row">
+                    <div class="card shadow col-12 mb-4">
+                        <div class="card-header">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <a class="col-3 float-left"> Situação Atual </a>
+                                <a class="col-7 float-right">Endereço</a>
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-1">
+                                <div class="progress progress-bar-vertical">
+                                    <div id="current_situation" class="progress-bar bg-warning"
+                                         role="progressbar"
+                                         aria-valuenow="60"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         style="height: 50%;">
                                     </div>
                                 </div>
-                                <label id="current_situation_label" class="col-3 float-left">
-                                    <span id="level" class="m-0 font-weight-bold text-secondary">Nível: </span> <span id="level_label">-</span> <br>
-                                    <span id="height" class="m-0 font-weight-bold text-secondary">Altura da Enchente: </span><span id="height_number">+- 40cm</span><br>
-                                    <span id="last_update" class="m-0 font-weight-bold text-secondary">Última Atualização: </span>16:55h
-                                </label>
-
-                                <div id="address_label" class="col-5 float-right">
-                                    <h6 class="m-0 font-weight-bold text-secondary">Via:</h6> Marginal Pinheiros, 359
-                                    <h6 class="m-0 font-weight-bold text-secondary">Bairro:</h6> Jardim Morumbi
-                                </div>
-                                <div id="address_label" class="col-2 float-right">
-                                    <h6 class="m-0 font-weight-bold text-secondary">Cidade:</h6> São Paulo - SP
-                                    <h6 class="m-0 font-weight-bold text-secondary">CEP:</h6> 05672-130
-                                </div>
-
                             </div>
+                            <label id="current_situation_label" class="col-3 float-left">
+                                <span id="level" class="m-0 font-weight-bold text-secondary">Nível: </span> <span id="level_label">-</span> <br>
+                                <span id="height" class="m-0 font-weight-bold text-secondary">Altura da Enchente: </span><span id="height_number">+- 40cm</span><br>
+                                <span id="last_update" class="m-0 font-weight-bold text-secondary">Última Atualização: </span>16:55h
+                            </label>
+
+                            <div id="address_label" class="col-5 float-right">
+                                <h6 class="m-0 font-weight-bold text-secondary">Via:</h6> Marginal Pinheiros, 359
+                                <h6 class="m-0 font-weight-bold text-secondary">Bairro:</h6> Jardim Morumbi
+                            </div>
+                            <div id="address_label" class="col-2 float-right">
+                                <h6 class="m-0 font-weight-bold text-secondary">Cidade:</h6> São Paulo - SP
+                                <h6 class="m-0 font-weight-bold text-secondary">CEP:</h6> 05672-130
+                            </div>
+
                         </div>
+                    </div>
 
 
-                        <!-- Content Row -->
-                        <div class="row">
-                            <!-- Area Chart -->
-                            <div class="col-12">
-                                <div class="card shadow mb-4">
-                                    <!-- Card Header - Dropdown -->
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        
 
-                                        <h6 class="m-0 font-weight-bold text-primary">Histórico de Enchentes</h6>
-
-                                        <div class="Filter">
-                                            <div class="dropdown mb-4 show">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    Filtrar
-                                                </button>
-                                                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                    <a class="dropdown-item" href="#">Hoje</a>
-                                                    <a class="dropdown-item" href="#">Últimos 15 dias</a>
-                                                    <a class="dropdown-item" href="#">Último Trimestre</a>
-                                                    <a class="dropdown-item" href="#">Último Semestre</a>
-                                                    <a class="dropdown-item" href="#">Último Ano</a>
-                                                </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-8">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Histórico de Enchentes</h6>
+                                    <div class="Filter">
+                                        <div class="dropdown mb-4 show">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Filtrar
+                                            </button>
+                                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a class="dropdown-item" href="#Hoje" onclick="chart_area_set(20)">Hoje</a>
+                                                <a class="dropdown-item" href="#15" onclick="chart_area_set(40)">Últimos 15 dias</a>
+                                                <a class="dropdown-item" href="#90" onclick="chart_area_set(50)">Último Trimestre</a>
+                                                <a class="dropdown-item" href="#180" onclick="chart_area_set(60)">Último Semestre</a>
+                                                <a class="dropdown-item" href="#365" onclick="chart_area_set(70)">Último Ano</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
 
-                                        <div class="chart-area">
-                                            <canvas id="myAreaChart"></canvas>
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-4">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header  d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class=" font-weight-bold text-primary">Histórico de Eventos</h6>
+                                    <div class="Filter">
+                                        <div class="dropdown mb-4 show">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Filtrar
+                                            </button>
+                                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a class="dropdown-item" href="#Hoje" onclick="chart_pie_enchente_set(20)">Hoje</a>
+                                                <a class="dropdown-item" href="#15" onclick="chart_pie_enchente_set(40)">Últimos 15 dias</a>
+                                                <a class="dropdown-item" href="#90" onclick="chart_pie_enchente_set(50)">Último Trimestre</a>
+                                                <a class="dropdown-item" href="#180" onclick="chart_pie_enchente_set(60)">Último Semestre</a>
+                                                <a class="dropdown-item" href="#365" onclick="chart_pie_enchente_set(70)">Último Ano</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-                            <!-- Content Row -->
-                            <!-- Footer -->
-                            <footer class="sticky-footer bg-white">
-                                <div class="container my-auto">
-                                    <div class="copyright text-center my-auto">
-                                        <span>Copyright &copy; Your Website 2021</span>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <svg class="text-info" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg> N/A
+                                        </span>
+                                        <span class="mr-2">
+                                            <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg> Baixo
+                                        </span>
+                                        <span class="mr-2">
+                                            <svg class="text-warning" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg> Médio
+                                        </span>
+                                        <span class="mr-2">
+                                            <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg> Alto
+                                        </span>
                                     </div>
                                 </div>
-                            </footer>
-                            <!-- End of Footer -->
-
-                        </div>
-                        <!-- End of Content Wrapper -->
-
-                    </div>
-                    <!-- End of Page Wrapper -->
-                    <!-- Scroll to Top Button-->
-                    <a class="scroll-to-top rounded" href="#page-top">
-                        <i class="fas fa-angle-up"></i>
-                    </a>
-
-                    <!-- Logout Modal-->
-                    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                    <a class="btn btn-primary" href="login.html">Logout</a>
-                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="js/vendor/jquery/jquery.min.js"></script>
-                    <script src="js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                    <!-- Core plugin JavaScript-->
-                    <script src="js/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
-
-                    <!-- Page level plugins -->
-                    <script src="js/vendor/chart.js/Chart.min.js"></script>
-
-                    <!-- Page level custom scripts -->
-                    <script src="js/charts/chart-area.js"></script>
-                    <script src="js/charts/chart-progress-bar.js"></script>
-
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 </html>

@@ -110,10 +110,9 @@ namespace SistemaMonitoramento.Controllers
             ViewBag.TipoUsers = listaTipoUsers;
         }
 
-        public override IActionResult Save(UsuarioViewModel model, string Operacao)
+        public IActionResult Relacao()
         {
-            return base.Save(model, Operacao);
+            return View(DAO.Listagem());
         }
-
     }
 }

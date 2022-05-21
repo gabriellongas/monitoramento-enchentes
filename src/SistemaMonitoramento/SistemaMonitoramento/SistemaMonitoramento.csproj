@@ -8,7 +8,7 @@
   <ItemGroup>
     <Content Remove="Views\Login\login.cshtml" />
     <Content Remove="Views\Menu\dashboard-enchente.cshtml" />
-    <Content Remove="Views\Menu\menu.cshtml" />
+    <Content Remove="Views\Menu\Menu-principal.cshtml" />
     <Content Remove="Views\Menu\sobre.cshtml" />
     <Content Remove="Views\Regiao\Form.cshtml" />
   </ItemGroup>
@@ -16,7 +16,7 @@
   <ItemGroup>
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Menu\dashboard-enchente.cshtml" />
-    <None Include="Views\Menu\menu.cshtml" />
+    <None Include="Views\Menu\Menu-principal.cshtml" />
     <None Include="Views\Menu\Sobre.cshtml" />
     <None Include="Views\Regiao\Form.cshtml" />
   </ItemGroup>
