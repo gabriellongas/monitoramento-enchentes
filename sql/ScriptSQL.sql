@@ -18,20 +18,11 @@ CREATE TABLE Usuarios (
 	Email varchar(max) NOT NULL,
 	Senha varchar(max) NOT NULL,
 	Imagem varbinary(max) NULL,
+	DataCriacao date NOT NULL,
 	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
 );
 
-
-CREATE TABLE TipoVias (
-	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	Descricao varchar (max) NOT NULL,
-);
-
-INSERT INTO TipoVias (Descricao) VALUES('Rua')
-INSERT INTO TipoVias (Descricao) VALUES('Avenida')
-INSERT INTO TipoVias (Descricao) VALUES('Via')
-
-CREATE TABLE Controladores (
+CREATE TABLE Regiao (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	Nome varchar(max) NOT NULL,
 	Endereco varchar(max) NOT NULL,
@@ -39,18 +30,27 @@ CREATE TABLE Controladores (
 	Bairro varchar(max) NOT NULL,
 	Cidade varchar(max) NOT NULL,
 	Estado varchar(max) NOT NULL,
-	TipoVia int NOT NULL FOREIGN KEY REFERENCES TipoVias(id),
-	CEP int NOT NULL,
-	Latitude float NOT NULL,
-	Longitude float NOT NULL
+	CEP varchar (max) NOT NULL
+);
+
+CREATE TABLE Sensores (
+	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	idRegiao int NOT NULL FOREIGN KEY REFERENCES Regiao(id)
 );
 
 CREATE TABLE Registros (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	Controlador int NOT NULL FOREIGN KEY REFERENCES Controladores(id),
+	idSensor int NOT NULL FOREIGN KEY REFERENCES Sensores(id),
 	Nivel int NOT NULL,
 	DataHora datetime NOT NULL
 );
+
+CREATE TABLE Usuario_Regiao (
+	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	idUsuario int NOT NULL FOREIGN KEY REFERENCES Usuarios(id),
+	idRegiao int NOT NULL FOREIGN KEY REFERENCES Regiao(id)
+);
+
 
 ---------------------------------------------------------------------------------------------------------
 ---> Procedures genéricas
@@ -155,3 +155,19 @@ begin
 	select * from Usuarios where Email = @email
 end
 GO
+
+------------------------------------------------------------------------------------------------------------
+--Procedures Sensores
+create procedure spInsert_Registros
+(
+	@idSensor int,
+	@Nivel int,
+	@DataHora datetime	
+)
+as
+begin
+	insert into Registros 
+	(idSensor, Nivel, DataHora)
+	values
+	(@idSensor, @Nivel, @DataHora)
+end
