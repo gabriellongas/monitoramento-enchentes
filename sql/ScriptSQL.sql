@@ -171,3 +171,34 @@ begin
 	values
 	(@idSensor, @Nivel, @DataHora)
 end
+
+---------------------------------------------------------------
+-- Procedure região
+create procedure spConsulta_PorNome
+(
+	@nome varchar(max)
+)
+as
+begin
+	select * from Regiao where Nome = @nome
+end
+GO
+
+create procedure spInsert_Regiao
+(
+	@Nome varchar(max),
+	@Endereco varchar(max),
+	@Numero int,
+	@Bairro varchar(max),
+	@Cidade varchar(max),
+	@Estado varchar(max),
+	@CEP varchar (max)
+)
+as
+begin
+	insert into Regiao
+	(Nome, Endereco, Numero, Bairro, Cidade, Estado, CEP)
+	values
+	(@Nome, @Endereco, @Numero, @Bairro, @Cidade, @Estado, @CEP)
+end
+GO

@@ -11,8 +11,11 @@ namespace SistemaMonitoramento.Controllers
 {
     public class UsuarioController : PadraoController<UsuarioViewModel>
     {
+
         public UsuarioController()
         {
+            GeraProximoId = false;
+            NomeViewIndex = "Relacao";
             DAO = new UsuarioDAO();
         }
         
@@ -113,6 +116,11 @@ namespace SistemaMonitoramento.Controllers
         public IActionResult Relacao()
         {
             return View(DAO.Listagem());
+        }
+
+        public IActionResult Perfil(int id)
+        {            
+            return View("Perfil", DAO.Consulta(id));
         }
     }
 }

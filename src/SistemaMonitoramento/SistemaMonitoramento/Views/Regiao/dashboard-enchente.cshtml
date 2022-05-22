@@ -1,3 +1,4 @@
+@model RegiaoViewModel
 @{
     Layout = "_Layout";
 }
@@ -14,14 +15,16 @@
     <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
-
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
+    <link href="~/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="~/css/sb-admin-2.css" rel="stylesheet">
 
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+    
 </head>
 
 <body>
@@ -34,7 +37,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Marginal Pinheiros</h1>
+                    <h1 class="h3 mb-0 text-gray-800">@Model.Nome</h1>
                 </div>
 
                 <!-- Content Row -->
@@ -66,12 +69,12 @@
                             </label>
 
                             <div id="address_label" class="col-5 float-right">
-                                <h6 class="m-0 font-weight-bold text-secondary">Via:</h6> Marginal Pinheiros, 359
-                                <h6 class="m-0 font-weight-bold text-secondary">Bairro:</h6> Jardim Morumbi
+                                <h6 class="m-0 font-weight-bold text-secondary">Via:</h6> @Model.Nome, @Model.Numero
+                                <h6 class="m-0 font-weight-bold text-secondary">Bairro:</h6> @Model.Bairro
                             </div>
                             <div id="address_label" class="col-2 float-right">
-                                <h6 class="m-0 font-weight-bold text-secondary">Cidade:</h6> São Paulo - SP
-                                <h6 class="m-0 font-weight-bold text-secondary">CEP:</h6> 05672-130
+                                <h6 class="m-0 font-weight-bold text-secondary">Cidade:</h6> @Model.Cidade - @Model.Estado
+                                <h6 class="m-0 font-weight-bold text-secondary">CEP:</h6> @Model.CEP
                             </div>
 
                         </div>

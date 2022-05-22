@@ -12,6 +12,7 @@ namespace SistemaMonitoramento.Models
         public IFormFile Imagem { get; set; }
         public byte[] ImagemEmByte { get; set; }
         public string ConfirmaSenha { get; set; }
+        public DateTime DataCriacao { get; set; }
 
         public string ImagemEmBase64
         {
@@ -22,6 +23,16 @@ namespace SistemaMonitoramento.Models
                 else
                     return string.Empty;
             }
+        }
+
+        public int getDiferencaDias()
+        {
+            return DateTime.Now.Subtract((DateTime)DataCriacao).Days;
+        }
+
+        public string getTipoUsuarioString()
+        {
+            return TipoUsuario == 1 ? "Admin" : "Usuário";
         }
     }
 }

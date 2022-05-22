@@ -36,6 +36,8 @@ namespace SistemaMonitoramento.DAO
             if (registro["imagem"] != DBNull.Value)
                 u.ImagemEmByte = registro["Imagem"] as byte[];
 
+            u.DataCriacao = Convert.ToDateTime(registro["DataCriacao"]);
+
             return u;
         }
 

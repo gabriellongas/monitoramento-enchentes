@@ -10,7 +10,7 @@ namespace SistemaMonitoramento.DAO
         protected override SqlParameter[] CriaParametros(RegiaoViewModel model)
         {
 
-            SqlParameter[] parametros = new SqlParameter[5];
+            SqlParameter[] parametros = new SqlParameter[7];
             parametros[0] = new SqlParameter("Nome", model.Nome);
             parametros[1] = new SqlParameter("Endereco", model.Endereco);
             parametros[2] = new SqlParameter("Numero", model.Numero);
@@ -41,6 +41,19 @@ namespace SistemaMonitoramento.DAO
         protected override void SetTabela()
         {
             Tabela = "Regiao";
+        }
+
+        public RegiaoViewModel ConsultaPorNome(string nome)
+        {
+            var u = new SqlParameter[]
+            {
+                new SqlParameter("Nome", nome),
+            };
+            var tabela = HelperDAO.ExecutaProcSelect("spConsulta_PorNome", u);
+            if (tabela.Rows.Count == 0)
+                return null;
+            else
+                return MontaModel(tabela.Rows[0]);
         }
     }
 }

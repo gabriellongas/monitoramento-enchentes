@@ -1,7 +1,9 @@
 @using SistemaMonitoramento.Models
+@model List<RegiaoViewModel>
 @{
     Layout = "_Layout";
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,17 +14,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SME</title>
+    <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
-
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
+    <link href="~/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="~/css/sb-admin-2.css" rel="stylesheet">
 
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" type="text/css">
+    
 </head>
 
 <body>
@@ -116,7 +120,7 @@
 
                             </div>
                             <div class="card-body ">
-                                <a class="nav-link float-right" style="height:50px" href="register-region.html?Criar">
+                                <a class="nav-link float-right" style="height:50px" href="/Regiao/Create?">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                                     </svg>
@@ -133,7 +137,7 @@
                                                 <th colspan="2">Ação</th>
                                             </tr>
                                         </thead>
-                                        @foreach(RegiaoViewModel regiao in ViewBag.Regioes)
+                                        @foreach(RegiaoViewModel regiao in Model)
                                         {
                                             <tbody>
                                                 <td>@regiao.Nome</td>
@@ -141,12 +145,12 @@
                                                 <td>@regiao.Bairro</td>
                                                 <td>@regiao.CEP</td>
                                                 <td>
-                                                    <a id="level_label" onload="level_set()" style="color: black;" class="nav-link bg-warning rounded" href="dashboard-enchente.html">High</a>
+                                                    <a id="level_label" onload="level_set()" style="color: black;" class="nav-link bg-warning rounded" href="/Regiao/DashboardEnchente?id=@regiao.Id">High</a>
                                                 </td>
                                                 
                                                 <td class="col-1">
                                                     <center>
-                                                        <a class="nav-link" href="dashboard-enchente.html">
+                                                        <a class="nav-link" href="javascript:apagarRegiao(@regiao.Id)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                                                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
@@ -176,3 +180,11 @@
         </form>
 </body>
 </html>
+
+<script>
+ function apagarRegiao(id)
+ {
+    if (confirm('Confirma a exclusão do registro?'))
+        location.href = 'Regiao/Delete?id=' + id;
+ }
+</script>
