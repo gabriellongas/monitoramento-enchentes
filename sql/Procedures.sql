@@ -27,7 +27,7 @@ exec sp_qtd_usuarios 60
 --Procedure que pega os usuários de acordo com o tipo
 create procedure sp_usuarios(@tipo varchar(8))
 as begin
-	select u.Nome, t.desc_tipoUser from Usuarios u
+	select u.Nome, u.Email, t.desc_tipoUser from Usuarios u
 	left join TipoUser t on t.id = u.TipoUsuario
 	where t.desc_tipoUser = @tipo
 end
@@ -61,7 +61,9 @@ exec sp_niveis 200, 1
 --Procedure que executa a function fc_sensor_ativo que checa se o sensor enviou algum dado nos ultimos 10 minutos, se nao marca como inativo.
 create procedure sp_sensores_ativos as
 begin
-	select id, dbo.fc_sensor_ativo(id) Ativo from Sensores
+	exec sp_refreshview 'vw_sensores'
+	select * from vw_sensores
 end
 
 exec sp_sensores_ativos
+

@@ -1,6 +1,6 @@
 --Triggers
 
-create trigger trg_deleta_sensor on Regiao
+create trigger trg_deleta_regiao on Regiao
 instead of delete as
 begin
 	declare @idRegiao int = (select id from deleted)
@@ -37,3 +37,17 @@ end
 
 delete from Regiao where id = 1
 
+
+--Trigger para inserir novos sensores, checa se a região a ser inserido o sensor existe
+alter trigger trg_insere_sensor on Sensores
+instead of insert as
+begin
+	declare @idRegiao int = (select idRegiao from inserted)
+
+	if not exists (select id from Regiao where id = @idRegiao)
+		rollback tran
+	else
+		insert into Sensores values(@idRegiao)
+end
+
+insert into Sensores values(2)
