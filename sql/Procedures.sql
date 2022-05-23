@@ -67,3 +67,16 @@ end
 
 exec sp_sensores_ativos
 
+
+create procedure sp_nivel_atual(@id_regiao int)
+as
+begin
+    select top 1 r.Nivel, r.DataHora from Registros r
+    left join Sensores s on s.id = r.idSensor
+    where s.idRegiao = @id_regiao
+    order by DataHora desc
+end
+
+exec sp_nivel_atual 28
+
+select * from Regiao

@@ -24,9 +24,44 @@ namespace SistemaMonitoramento.Controllers
         public IActionResult DashboardEnchente(int id)
         {
             CarregaViewBagHistoricoRegiao(200, id);
-            CarregaViewBagNiveis(200, id);      
+            CarregaViewBagNiveis(200, id);
+            CarregaNivelAtual(id);
+
+            if (ViewBag.NiveilAtual == null)
+                RedirectToAction("MenuPrincipal", "Menu");
            
             return View("dashboard-enchente", DAO.Consulta(id));
+        }
+
+        private void CarregaNivelAtual(int id)
+        {
+            ViewBag.NiveilAtual = TrazRegistrosNivelAtual(id);
+        }
+
+        private string[] TrazRegistrosNivelAtual(int id)
+        {
+            DataTable tabela = HelperDAO.ExecutaProcSelect("sp_nivel_atual", CriaParametrosNivelAtual(id));
+
+            if (tabela.Rows[0] != null)
+            {
+                DataRow registro = tabela.Rows[0];
+
+                string[] nivelAtual = new string[2];
+                nivelAtual[0] = registro["Nivel"].ToString();
+                nivelAtual[1] = registro["DataHora"].ToString();
+
+                return nivelAtual;
+            }
+
+            return null;
+        }
+
+        private SqlParameter[] CriaParametrosNivelAtual(int id)
+        {
+            SqlParameter[] parametros = new SqlParameter[1];
+            parametros[0] = new SqlParameter("id_regiao", id);
+
+            return parametros;
         }
 
         private void CarregaViewBagNiveis(int range, int id)
