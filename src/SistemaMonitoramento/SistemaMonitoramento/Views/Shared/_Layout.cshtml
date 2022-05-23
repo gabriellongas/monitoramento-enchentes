@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
             <!-- Topbar Logo -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard-principal.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <img height="50px" class="img-profile rounded" src="~/img/logo.png">
             </a>
 
@@ -12,12 +12,6 @@
 
             <a class="nav-link" href="/Menu/MenuPrincipal" role="button">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" >Painel de Controle</span>
-            </a>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            <a class="nav-link" href="/Menu/" role="button">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Suas Regiões</span>
             </a>
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -46,10 +40,11 @@
 
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" href="/Usuario/Perfil?id=@ViewBag.Id" id="userDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Usuário</span>
-                        <img class="img-profile rounded-circle" src="~/img/undraw_profile.svg">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Olá @ViewBag.NomeUsuario</span>
+                        <img class="img-profile rounded-circle" id="imagem"  onchange="exibirImagem()" src="data:image/jpeg;base64,@ViewBag.Imagem" />
+                        
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -94,3 +89,14 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+
+<script>
+ function exibirImagem() {
+    var oFReader = new FileReader(); 
+    oFReader.readAsDataURL(document.getElementById("Imagem").files[0]);
+    oFReader.onload = function (oFREvent) 
+    {
+        document.getElementById("imgPreview").src = oFREvent.target.result;
+    };
+ }
+</script>

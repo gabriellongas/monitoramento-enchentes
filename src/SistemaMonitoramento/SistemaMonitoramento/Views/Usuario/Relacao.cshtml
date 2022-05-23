@@ -44,6 +44,14 @@
                     <div class="col-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
+
+                           @{ 
+                                var data2 = "";
+                                foreach (string[] regiao in ViewBag.Historico)
+                                {
+                                    data2 += regiao[0] + "+" + regiao[1] + "|";
+                                }
+                            }
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Número de Usuários dos últimos 12 meses</h6>
                                 <div class="Filter">
@@ -68,6 +76,7 @@
                                     <canvas id="myAreaChart"></canvas>
                                 </div>
                             </div>
+                            <div id="datas_chart_bar" data-value="@data2"></div>
                         </div>
                     </div>
 

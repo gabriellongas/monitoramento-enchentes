@@ -64,7 +64,10 @@ namespace SistemaMonitoramento.Controllers
                     if (Operacao == "I")
                         DAO.Insert(model);
                     else
+                    {
                         DAO.Update(model);
+                    }
+                        
 
                     if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
                         return RedirectToAction("Index", "Login");
@@ -117,7 +120,7 @@ namespace SistemaMonitoramento.Controllers
                     return RedirectToAction(NomeViewIndex);
                 }
 
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("MenuPrincipal", "Menu");
 
             }
             catch (Exception erro)
@@ -133,6 +136,9 @@ namespace SistemaMonitoramento.Controllers
             else
             {
                 ViewBag.Logado = true;
+                ViewBag.NomeUsuario = HelperControllers.GetString(HttpContext.Session, "NomeUsuario");
+                ViewBag.Imagem = HelperControllers.GetString(HttpContext.Session, "Imagem");
+                ViewBag.Id = HelperControllers.GetString(HttpContext.Session, "Id");
                 base.OnActionExecuting(context);
             }
         }

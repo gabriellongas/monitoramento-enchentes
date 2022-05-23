@@ -42,7 +42,7 @@ namespace SistemaMonitoramento.Controllers
         public override IActionResult Delete(int id)
         {
             base.Delete(id);
-            return RedirectToAction("Index", "Menu");
+            return RedirectToAction("MenuPrincipal", "Menu");
         }
 
         protected override void ValidaDados(RegiaoViewModel model, string operacao)
@@ -73,18 +73,34 @@ namespace SistemaMonitoramento.Controllers
 
         public override IActionResult Save(RegiaoViewModel model, string Operacao)
         {
-            if (ModelState.IsValid == false)
+            try
             {
-                ViewBag.Operacao = Operacao;
-                PreencheDadosParaView(Operacao, model);
-                return View(NomeViewForm, model);
+                ValidaDados(model, Operacao);
+                if (ModelState.IsValid == false)
+                {
+                    ViewBag.Operacao = Operacao;
+                    PreencheDadosParaView(Operacao, model);
+                    return View(NomeViewForm, model);
+                }
+                else
+                {
+                    if (Operacao == "I")
+                        DAO.Insert(model);
+                    else
+                    {
+                        DAO.Update(model);
+                    }
+                       
 
+                    if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
+                        return RedirectToAction("Index", "Login");
+
+                    return RedirectToAction("MenuPrincipal", "Menu");
+                }
             }
-            
-            else
+            catch (Exception erro)
             {
-                base.Save(model, Operacao);
-                return RedirectToAction("Index", "Menu");
+                return View("Error", new ErrorViewModel(erro.ToString()));
             }
 
         }
@@ -153,5 +169,27 @@ namespace SistemaMonitoramento.Controllers
 
             return parametros;
         }
+
+        public override IActionResult Edit(int id)
+        {
+            try
+            {
+                ViewBag.Operacao = "A";
+                RegiaoViewModel model = DAO.Consulta(id);
+                if (model == null)
+                    return RedirectToAction(NomeViewIndex);
+                else
+                {
+                    PreencheDadosParaView("A", model);
+                    return View(NomeViewForm, model);
+                }
+            }
+            catch (Exception erro)
+            {
+                return View("Error", new ErrorViewModel(erro.ToString()));
+            }
+        }
+
+
     }
 }

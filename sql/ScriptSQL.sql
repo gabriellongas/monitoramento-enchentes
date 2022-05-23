@@ -215,4 +215,27 @@ begin
 end
 GO
 
+create procedure spUpdate_Regiao
+(
+	@Nome varchar(max),
+	@Endereco varchar(max),
+	@Numero int,
+	@Bairro varchar(max),
+	@Cidade varchar(max),	@Estado varchar(max),	@CEP varchar (max),	@Id int
+)
+as
+begin
+	update Regiao set
+		Nome = @nome,
+		Endereco = @Endereco,
+		Numero = @Numero,
+		Bairro = @Bairro,
+		Cidade = @Cidade,
+		Estado = @Estado,
+		CEP = @CEP
+	where Id = @id 
+end
+GO
+
+
 select * from Usuarios

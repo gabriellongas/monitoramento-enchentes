@@ -23,5 +23,11 @@ namespace SistemaMonitoramento.Controllers
             else
                 return false;
         }
+
+        public static string GetString(ISession session, string stringProcurada)
+        {
+            return session.GetString(stringProcurada);
+        }
+
     }
 }

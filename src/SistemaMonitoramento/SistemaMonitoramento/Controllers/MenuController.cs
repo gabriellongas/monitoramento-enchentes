@@ -21,7 +21,7 @@ namespace SistemaMonitoramento.Controllers
         {
             RegiaoDAO dao = new RegiaoDAO();
 
-            CarregaViewBagBairroComQtd(50);
+            CarregaViewBagBairroComQtd(100);
             CarregaViewBagSensoresAtivos();
             
             ViewBag.Regioes = dao.Listagem();
@@ -29,6 +29,15 @@ namespace SistemaMonitoramento.Controllers
 
             string admin = HttpContext.Session.GetString("Admin");
             string id = HttpContext.Session.GetString("Id");
+
+            UsuarioDAO uDao = new UsuarioDAO();
+            UsuarioViewModel model = uDao.Consulta(Convert.ToInt32(id));
+            HttpContext.Session.SetString("NomeUsuario", model.Nome);
+            HttpContext.Session.SetString("Imagem", model.ImagemEmBase64);
+
+            ViewBag.NomeUsuario = HelperControllers.GetString(HttpContext.Session, "NomeUsuario");
+            ViewBag.Imagem = HelperControllers.GetString(HttpContext.Session, "Imagem");
+            ViewBag.Id = HelperControllers.GetString(HttpContext.Session, "Id");
 
             if (admin.Equals("true"))
                 tipoUsuario = 1;

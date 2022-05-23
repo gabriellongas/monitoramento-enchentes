@@ -68,5 +68,27 @@ namespace SistemaMonitoramento.DAO
             else
                 return MontaModel(tabela.Rows[0]);
         }
+
+        protected SqlParameter[] CriaParametrosEdit(RegiaoViewModel model)
+        {
+
+            SqlParameter[] parametros = new SqlParameter[8];
+            parametros[0] = new SqlParameter("Nome", model.Nome);
+            parametros[1] = new SqlParameter("Endereco", model.Endereco);
+            parametros[2] = new SqlParameter("Numero", model.Numero);
+            parametros[3] = new SqlParameter("Bairro", model.Bairro);
+            parametros[4] = new SqlParameter("Cidade", model.Cidade);
+            parametros[5] = new SqlParameter("Estado", model.Estado);
+            parametros[6] = new SqlParameter("CEP", model.CEP);
+            parametros[7] = new SqlParameter("Id", model.Id);
+
+            return parametros;
+        }
+
+        public override void Update(RegiaoViewModel model)
+        {
+            HelperDAO.ExecutaProc("spUpdate_" + Tabela, CriaParametrosEdit(model));
+        }
+
     }
 }

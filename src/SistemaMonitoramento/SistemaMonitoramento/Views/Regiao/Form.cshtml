@@ -1,3 +1,5 @@
+@using SistemaMonitoramento.Models
+@model RegiaoViewModel
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +28,8 @@
 <body class="bg-gradient-primary">
     <form asp-action="Save">
         <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
+        <input type="hidden" name="ID" value="@Model.Id" />
+
         <div class="container">
 
             <div class="card o-hidden border-0 shadow-lg my-5">
@@ -43,10 +47,10 @@
                                 <form class="user text-center">
                                     <div class="form-group row">
                                         <div class="col-7">
-                                            <input type="text" name="Nome" id="Nome" class="form-control form-control-user" placeholder="Nome">
+                                            <input type="text" name="Nome" id="Nome" class="form-control form-control-user" placeholder="Nome" value="@Model.Nome" />
                                         </div>
                                         <div class="col-3">
-                                            <input type="text" name="cep" id="cep" class="form-control form-control-user" placeholder="CEP">
+                                            <input type="text" name="cep" id="cep" class="form-control form-control-user" placeholder="CEP" value="@Model.CEP" />
                                         </div>
                                         <div class="col-2">
                                             <input type="button" class="btn btn-primary btn-user btn-block itens-center-align " name="btnBuscaCEP" value="Buscar" onclick="buscaCEP()" />
@@ -54,21 +58,21 @@
                                     </div>
                                     <div class="form-group row text-center">
                                         <div class="col-sm-10">
-                                            <input type="text" name="endereco" id="logradouro" class="form-control form-control-user" placeholder="Endereço">
+                                            <input type="text" name="endereco" id="logradouro" class="form-control form-control-user" placeholder="Endereço" value="@Model.Endereco" />
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="number" name="numero" id="numero" class="form-control form-control-user" placeholder="Nº">
+                                            <input type="number" name="numero" id="numero" class="form-control form-control-user" placeholder="Nº" value="@Model.Numero" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-4">
-                                            <input type="text" name="cidade" id="localidade" class="form-control form-control-user" placeholder="Cidade">
+                                            <input type="text" name="cidade" id="localidade" class="form-control form-control-user" placeholder="Cidade" value="@Model.Cidade" />
                                         </div>
                                         <div class="col-3">
-                                            <input type="text" name="estado" id="uf" class="form-control form-control-user" placeholder="Estado">
+                                            <input type="text" name="estado" id="uf" class="form-control form-control-user" placeholder="Estado" value="@Model.Estado" />
                                         </div>
                                         <div class="col-5">
-                                            <input type="text" name="bairro" id="bairro" class="form-control form-control-user" placeholder="Bairro">
+                                            <input type="text" name="bairro" id="bairro" class="form-control form-control-user" placeholder="Bairro" value="@Model.Bairro" />
                                         </div>
                                     </div>
                                     <input type="submit" value="Adicionar Região" class="btn btn-primary btn-user btn-block" />

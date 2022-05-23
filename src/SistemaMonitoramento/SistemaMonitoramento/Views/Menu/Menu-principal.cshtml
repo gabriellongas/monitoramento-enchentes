@@ -54,25 +54,23 @@
                                             data += regiao[0] + "+" + regiao[1] + "|";
                                         }
                                     }
-
-                                <div id="datas_chart_bar" data-value="@data"></div>
-                                    
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Top 10 - Registros de Enchentes dos últimos 12 meses</h6>
+
+
+                                    <h6 class="m-0 font-weight-bold text-primary">Registros de Enchentes</h6>
                                     <div class="Filter">
                                         <div class="dropdown show">
                                             <button class="btn btn-primary dropdown-toggle" onclick="open_chart_bar()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Filtrar
                                             </button>
-                                        <div class="dropdown-menu animated--fade-in" id="dropdown_bar_principal" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="#Hoje" onclick="chart_bar_set()"></a>
-                                            <a class="dropdown-item" href="#15" onclick="chart_bar_set(40)">Últimos 15 dias</a>
-                                            <a class="dropdown-item" href="#90" onclick="chart_bar_set(50)">Último Trimestre</a>
-                                            <a class="dropdown-item" href="#180" onclick="chart_bar_set(60)">Último Semestre</a>
-                                            <a class="dropdown-item" href="#365" onclick="chart_bar_set(70)">Último Ano</a>
+                                            <div class="dropdown-menu animated--fade-in " id="dropdown_bar_principal" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a class="dropdown-item" href="#180" onclick="chart_bar_set(1)">Último Semestre</a>
+                                                <a class="dropdown-item" href="#365" onclick="chart_bar_set(2)">Último Ano</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div id="datas_chart_bar" data-value="@data"></div>
                             </div>                                   
                             <div class="card-body">
                                         <div class="chart-bar">
@@ -86,6 +84,14 @@
                             <div class="col-4">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
+
+                                    @{ 
+                                        var data2 = "";
+                                        foreach (string[] regiao in ViewBag.SensoresAtivos)
+                                        {
+                                            data2 += regiao[0] + "+" + regiao[1] + "|";
+                                        }
+                                    }
                                     <div class="card-header  d-flex flex-row align-items-center justify-content-between">
                                         <h6 class=" font-weight-bold text-primary">Status Atual</h6>
                                     </div>
@@ -107,6 +113,7 @@
                                             </span>
                                         </div>
                                     </div>
+                                    <div id="datas_chart_bar" data-value="@data2"></div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +123,7 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Regiões Monitoradas</h6>
                                 <div class="Filter">
                                     <div class="dropdown mb-4 show">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="btn btn-primary dropdown-toggle" onclick="open_chart_bar()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             Filtrar
                                         </button>
                                         <div class="dropdown-menu animated--fade-in " aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
@@ -179,21 +186,17 @@
                                                     </td>
                                                     <td class="col-1">
                                                         <center>
-                                                            <a class="nav-link" href="register-region.html">
+                                                            <a class="nav-link" href="/Regiao/Edit?id=@regiao.Id">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                 </svg>
                                                             </a>
                                                         </center>
                                                     </td>
-                                                }
-    
-                                                                                                                                           
-
+                                                } 
                                             </tbody>
                                         }                                                                              
                                     </table>
-
                                 </div>
                             </div>
                         </div>
@@ -207,6 +210,6 @@
  function apagarRegiao(id)
  {
     if (confirm('Confirma a exclusão do registro?'))
-        location.href = 'Regiao/Delete?id=' + id;
+        location.href = '/Regiao/Delete?id=' + id;
  }
 </script>

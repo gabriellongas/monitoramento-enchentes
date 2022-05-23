@@ -90,21 +90,33 @@
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    
+                                    @{
+                                        var data = "";
+                                        var date = "";
+                                        foreach (string[] regiao in ViewBag.HistoricoRegiao)
+                                        {
+                                            data += regiao[0] + "|";
+                                            date += regiao[1] + "|";
+                                        }
+                                    }                                    
+ 
+                                    
                                     <h6 class="m-0 font-weight-bold text-primary">Histórico de Enchentes</h6>
-                                    <div class="Filter">
-                                        <div class="dropdown mb-4 show">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Filtrar
-                                            </button>
-                                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <a class="dropdown-item" href="#Hoje" onclick="chart_area_set(20)">Hoje</a>
-                                                <a class="dropdown-item" href="#15" onclick="chart_area_set(40)">Últimos 15 dias</a>
-                                                <a class="dropdown-item" href="#90" onclick="chart_area_set(50)">Último Trimestre</a>
-                                                <a class="dropdown-item" href="#180" onclick="chart_area_set(60)">Último Semestre</a>
-                                                <a class="dropdown-item" href="#365" onclick="chart_area_set(70)">Último Ano</a>
+                                        <div class="Filter">
+                                            <div class="dropdown mb-4 show">
+                                                <button class="btn btn-primary dropdown-toggle" onclick="open_chart_area()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    Filtrar
+                                                </button>
+                                                <div class="dropdown-menu animated--fade-in" id="dropdown_area_enchente" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+
+                                                    <a class="dropdown-item" href="#180" onclick="chart_areas_set(1)">Último Semestre</a>
+                                                    <a class="dropdown-item" href="#365" onclick="chart_areas_set(2)">Último Ano</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <div id="datas_chart_area_enchenteX" data-value="@date"></div>
+                                    <div id="datas_chart_area_enchenteY" data-value="@data"></div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -121,21 +133,27 @@
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header  d-flex flex-row align-items-center justify-content-between">
+
+                                    @{ 
+                                        var data2 = "";
+                                        foreach (string[] regiao in ViewBag.Niveis)
+                                        {
+                                            data2 += regiao[0] + "+" + regiao[1] + "|";
+                                        }
+                                    } 
                                     <h6 class=" font-weight-bold text-primary">Histórico de Eventos</h6>
                                     <div class="Filter">
                                         <div class="dropdown mb-4 show">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <button onclick="open_chart_niveis()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                                 Filtrar
                                             </button>
-                                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <a class="dropdown-item" href="#Hoje" onclick="chart_pie_enchente_set(20)">Hoje</a>
-                                                <a class="dropdown-item" href="#15" onclick="chart_pie_enchente_set(40)">Últimos 15 dias</a>
-                                                <a class="dropdown-item" href="#90" onclick="chart_pie_enchente_set(50)">Último Trimestre</a>
-                                                <a class="dropdown-item" href="#180" onclick="chart_pie_enchente_set(60)">Último Semestre</a>
-                                                <a class="dropdown-item" href="#365" onclick="chart_pie_enchente_set(70)">Último Ano</a>
+                                            <div id="dropdown_niveis" class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a class="dropdown-item" href="#180" onclick="chart_pie_enchente_set(1)">Último Semestre</a>
+                                                <a class="dropdown-item" href="#365" onclick="chart_pie_enchente_set(2)">Último Ano</a>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="datas_chart_bar" data-value="@data2"></div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

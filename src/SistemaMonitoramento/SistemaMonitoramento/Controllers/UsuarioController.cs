@@ -23,9 +23,11 @@ namespace SistemaMonitoramento.Controllers
 
         public IActionResult Relacao()
         {
-            CarregaViewBagHistorico(60);
-            
+            CarregaViewBagHistorico(60);            
             ViewBag.Usuarios = DAO.Listagem();
+            ViewBag.NomeUsuario = HelperControllers.GetString(HttpContext.Session, "NomeUsuario");
+            ViewBag.Imagem = HelperControllers.GetString(HttpContext.Session, "Imagem");
+            ViewBag.Id = HelperControllers.GetString(HttpContext.Session, "Id");
 
             return View();
         }
