@@ -4,7 +4,7 @@
 alter procedure sp_top10_enchentes(@Range int)
 as
 begin
-	select rg.Bairro, count(r.id) qtd_enchentes from Registros r
+	select top 10 rg.Bairro, count(r.id) qtd_enchentes from Registros r
 	left join Sensores s on r.idSensor = s.id
 	left join Regiao rg on s.idRegiao = rg.id
 	where DataHora > DATEADD(day, (@Range * -1), GETDATE())
