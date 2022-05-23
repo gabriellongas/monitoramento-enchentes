@@ -23,5 +23,11 @@ namespace SistemaMonitoramento.Controllers
             else
                 return false;
         }
+
+        public static string GetUsuarioID(ISession session)
+        {
+            string idUsuario = session.GetString("Id");
+            return idUsuario;
+        }
     }
 }

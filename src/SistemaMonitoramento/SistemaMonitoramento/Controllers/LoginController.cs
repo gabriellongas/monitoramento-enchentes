@@ -44,6 +44,7 @@ namespace SistemaMonitoramento.Controllers
                         HttpContext.Session.SetString("Admin", "false");
 
                     ViewBag.TipoUsuario = model.TipoUsuario;
+                    ViewBag.IdUsuario = model.Id;
 
                     return RedirectToAction("MenuPrincipal", "Menu");
                 }

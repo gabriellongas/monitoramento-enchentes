@@ -1,7 +1,7 @@
 --Procedures
 
 --Procedure usada para pegar o top 10 locais com mais enchentes
-alter procedure sp_top10_enchentes(@Range int)
+CREATE procedure sp_top10_enchentes(@Range int)
 as
 begin
 	select top 10 rg.Bairro, count(r.id) qtd_enchentes from Registros r
@@ -67,3 +67,32 @@ end
 
 exec sp_sensores_ativos
 
+--Procedure que insere dados na tabela de UsuarioRegiao
+create procedure spInsert_UsuarioRegiao
+(
+	@idUsuario int,
+	@idregiao int,
+	@Nome varchar(max)
+)
+as
+begin
+	insert into Usuario_Regiao 
+	(idUsuario, idRegiao, Nome)
+	values
+	(@idUsuario, @idregiao, @Nome)
+end
+
+
+--Procedure que procura dados na tabela de UsuarioRegiao de um usuário
+create procedure spConsultaUsuarioRegiao(@IdUsuario int)
+as begin
+	select *  from Usuario_Regiao
+	where idUsuario = @idUsuario
+end
+
+--Procedure que procura dados na de uma UsuarioxRegião
+create procedure spConsulta_UsuarioRegiao(@IdUsuario int, @IdRegiao int)
+as begin
+	select *  from Usuario_Regiao
+	where idUsuario = @idUsuario and idRegiao = @idRegiao
+end

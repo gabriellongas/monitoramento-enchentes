@@ -6,7 +6,7 @@ namespace SistemaMonitoramento.DAO
     {
         public static SqlConnection getConnection()
         {
-            string strConexao = "data source=DESKTOP-AUHG4DS\\SQLEXPRESS;database=db_sme;user id=sa;password=123456";
+            string strConexao = "data source=DESKTOP-PEUQII0\\SQLEXPRESS;database=db_sme;Trusted_COnnection = true";
             SqlConnection sqlConnection = new SqlConnection(strConexao);
             sqlConnection.Open();
             return sqlConnection;

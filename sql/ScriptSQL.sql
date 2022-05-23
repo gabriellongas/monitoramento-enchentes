@@ -49,6 +49,7 @@ CREATE TABLE Usuario_Regiao (
 	id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	idUsuario int NOT NULL FOREIGN KEY REFERENCES Usuarios(id),
 	idRegiao int NOT NULL FOREIGN KEY REFERENCES Regiao(id)
+	Nome varchar(max)NOT NULL 
 );
 
 
