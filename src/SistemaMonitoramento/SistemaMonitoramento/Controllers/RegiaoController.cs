@@ -190,6 +190,19 @@ namespace SistemaMonitoramento.Controllers
             }
         }
 
+        public IActionResult ExibeConsultaAvancada()
+        {
+            try
+            {
+                return View("ConsultaAvancada");
+            }
+            catch (Exception erro)
+            {
+                return View("Error", new ErrorViewModel(erro.Message));
+            }
+        }
+
+
 
     }
 }

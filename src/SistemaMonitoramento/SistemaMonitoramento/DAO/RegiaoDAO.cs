@@ -1,5 +1,6 @@
 ﻿using SistemaMonitoramento.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -88,6 +89,34 @@ namespace SistemaMonitoramento.DAO
         public override void Update(RegiaoViewModel model)
         {
             HelperDAO.ExecutaProc("spUpdate_" + Tabela, CriaParametrosEdit(model));
+        }
+
+        public List<RegiaoViewModel> ConsultaAvancadaRegiao(string via, int numero, string bairro, string cep)
+        {
+            RegiaoViewModel model = new RegiaoViewModel();
+            model.Nome = via;
+            model.Numero = numero;
+            model.Bairro = bairro;
+            model.CEP = cep;
+
+
+            var tabela = HelperDAO.ExecutaProcSelect("spConsultaAvancada" + Tabela, CriaParametrosConsultaAvancada(model));
+            List <RegiaoViewModel> lista = new List<RegiaoViewModel>();
+            foreach (DataRow registro in tabela.Rows)
+                lista.Add(MontaModel(registro));
+            return lista;
+        }
+
+        protected SqlParameter[] CriaParametrosConsultaAvancada(RegiaoViewModel model)
+        {
+
+            SqlParameter[] parametros = new SqlParameter[4];
+            parametros[0] = new SqlParameter("Nome", model.Nome);
+            parametros[1] = new SqlParameter("Numero", model.Numero);
+            parametros[2] = new SqlParameter("Bairro", model.Bairro);
+            parametros[3] = new SqlParameter("CEP", model.CEP);
+
+            return parametros;
         }
 
     }

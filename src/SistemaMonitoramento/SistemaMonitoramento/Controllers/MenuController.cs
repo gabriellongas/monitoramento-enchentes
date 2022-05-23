@@ -112,6 +112,44 @@ namespace SistemaMonitoramento.Controllers
 
         }
 
+        public IActionResult ConsultaAvancada()
+        {
+            RegiaoDAO dao = new RegiaoDAO();
+
+            ViewBag.Regioes = dao.Listagem();
+            return View("ConsultaAvancadaRegiao");
+        }
+
+        
+        public IActionResult ObtemDadosConsultaAvancada(string via, int numero, string bairro, string cep)
+        {
+            try
+            {
+                RegiaoDAO dao = new RegiaoDAO();
+                if (string.IsNullOrEmpty(via))
+                    via = "";
+
+                if (numero <= 0)
+                    numero = 0;
+
+                if (string.IsNullOrEmpty(bairro))
+                    bairro = "";
+
+                if (string.IsNullOrEmpty(cep))
+                    cep = "";
+
+                var lista = dao.ConsultaAvancadaRegiao(via, numero, bairro, cep);
+
+                return PartialView("pvGridRegioes", lista);
+            }
+            catch (Exception erro)
+            {
+                return Json(new { erro = true, msg = erro.Message });
+            }
+        }
+        
+
+
     }
 
 }

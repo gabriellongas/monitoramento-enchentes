@@ -45,29 +45,32 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
 
-                           @{ 
+                            @{
                                 var data2 = "";
+                                var date2 = "";
                                 foreach (string[] regiao in ViewBag.Historico)
                                 {
-                                    data2 += regiao[0] + "+" + regiao[1] + "|";
+                                    date2 += regiao[0] + "|";
+                                    data2 += regiao[1] + "|";
                                 }
                             }
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Número de Usuários dos últimos 12 meses</h6>
-                                <div class="Filter">
-                                    <div class="dropdown mb-4 show">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            Filtrar
-                                        </button>
-                                        <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                            <a class="dropdown-item" href="#">Hoje</a>
-                                            <a class="dropdown-item" href="#">Últimos 15 dias</a>
-                                            <a class="dropdown-item" href="#">Último Trimestre</a>
-                                            <a class="dropdown-item" href="#">Último Semestre</a>
-                                            <a class="dropdown-item" href="#">Último Ano</a>
+                                <h6 class="m-0 font-weight-bold text-primary">Número de Usuários criados</h6>
+                                    <div class="Filter">
+                                        <div class="dropdown mb-4 show">
+                                            <button onclick="open_chart_area_usuario()"class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Filtrar
+                                            </button>
+                                            <div id="dropdown_area_usuario" class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a class="dropdown-item" href="#" onclick="chart_areas_usuario_set(100)">Todos</a>
+                                                <a class="dropdown-item" href="#" onclick="chart_areas_usuario_set(2)">2</a>
+                                                <a class="dropdown-item" href="#" onclick="chart_areas_usuario_set(5)">5</a>
+                                                <a class="dropdown-item" href="#" onclick="chart_areas_usuario_set(10)">10</a>
+                                            </div>
+                                            <div id="datas_chart_area_usuarioX" data-value="@date2"></div>
+                                            <div id="datas_chart_area_usuarioY" data-value="@data2"></div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
                             <!-- Card Body -->
                             <div class="card-body">

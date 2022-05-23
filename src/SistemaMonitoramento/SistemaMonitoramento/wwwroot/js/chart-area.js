@@ -1,4 +1,4 @@
-chart_areas_set(2)
+chart_areas_set(100)
 
 
 function open_chart_area() {
@@ -19,20 +19,22 @@ function chart_areas_set(valor) {
 
     datax = document.getElementById('datas_chart_area_enchenteX').getAttribute('data-value').split('|');
     datay = document.getElementById('datas_chart_area_enchenteY').getAttribute('data-value').split('|');
-    x = datax;
-    y = datay;
+    x = [];
+    y = [];
 
-    console.log(datax)
 
-    if (valor == 1) {
-        x = [];
-        y = [];
-        for (var i = 0; i < parseInt((datax.length) / 2); i++) {
+    if (valor < datax.length) {
+
+        for (var i = datax.length - valor; i < datax.length; i++) {
+            x.push(datax[i]);
+            y.push(datay[i]);
+        }
+    } else {
+        for (var i = 0; i < datax.length; i++) {
             x.push(datax[i]);
             y.push(datay[i]);
         }
     }
-
 
     function number_format(number, decimals, dec_point, thousands_sep) {
         // *     example: number_format(1234.56, 2, ',', ' ');

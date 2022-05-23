@@ -110,8 +110,11 @@
                                                 </button>
                                                 <div class="dropdown-menu animated--fade-in" id="dropdown_area_enchente" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
 
-                                                    <a class="dropdown-item" href="#180" onclick="chart_areas_set(1)">Último Semestre</a>
-                                                    <a class="dropdown-item" href="#365" onclick="chart_areas_set(2)">Último Ano</a>
+                                                    <a class="dropdown-item" href="#" onclick="chart_areas_set(100)">Todos</a>
+                                                    <a class="dropdown-item" href="#" onclick="chart_areas_set(2)">2</a>
+                                                    <a class="dropdown-item" href="#" onclick="chart_areas_set(5)">5</a>
+                                                    <a class="dropdown-item" href="#" onclick="chart_areas_set(10)">10</a>
+                                            
                                                 </div>
                                             </div>
                                         </div>
@@ -134,26 +137,32 @@
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header  d-flex flex-row align-items-center justify-content-between">
 
-                                    @{ 
-                                        var data2 = "";
-                                        foreach (string[] regiao in ViewBag.Niveis)
-                                        {
-                                            data2 += regiao[0] + "+" + regiao[1] + "|";
-                                        }
+                                    @{
+                                        var baixo = "";
+                                        var medio = "";
+                                        var alto = "";
+
+                                            baixo = ViewBag.Niveis[0][0];
+                                            medio = ViewBag.Niveis[1][0];
+                                            alto = ViewBag.Niveis[2][0];
+                                        
                                     } 
-                                    <h6 class=" font-weight-bold text-primary">Histórico de Eventos</h6>
-                                    <div class="Filter">
-                                        <div class="dropdown mb-4 show">
-                                            <button onclick="open_chart_niveis()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Filtrar
-                                            </button>
-                                            <div id="dropdown_niveis" class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <a class="dropdown-item" href="#180" onclick="chart_pie_enchente_set(1)">Último Semestre</a>
-                                                <a class="dropdown-item" href="#365" onclick="chart_pie_enchente_set(2)">Último Ano</a>
+                                        <h6 class=" font-weight-bold text-primary">Histórico de Eventos</h6>
+                                        <div class="Filter">
+                                            <div class="dropdown mb-4 show">
+                                                <button onclick="open_chart_pie_enchente()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    Filtrar
+                                                </button>
+                                                <div id="dropdown_pie_enchente" class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item" href="#180" onclick="chart_pie_enchente_set(1)">Último Semestre</a>
+                                                    <a class="dropdown-item" href="#365" onclick="chart_pie_enchente_set(2)">Último Ano</a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div id="datas_chart_pie_enchente_baixo" data-value="@baixo"></div>
+                                        <div id="datas_chart_pie_enchente_medio" data-value="@medio"></div>
+                                        <div id="datas_chart_pie_enchente_alto" data-value="@alto"></div>
                                     </div>
-                                    <div id="datas_chart_bar" data-value="@data2"></div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -161,11 +170,6 @@
                                         <canvas id="myPieChart"></canvas>
                                     </div>
                                     <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <svg class="text-info" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                                <circle cx="8" cy="8" r="8" />
-                                            </svg> N/A
-                                        </span>
                                         <span class="mr-2">
                                             <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
                                                 <circle cx="8" cy="8" r="8" />

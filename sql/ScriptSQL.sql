@@ -237,5 +237,62 @@ begin
 end
 GO
 
+alter procedure [dbo].[spConsultaAvancadaRegiao]
+(
+ @Nome varchar(max),
+@numero int,
+@bairro varchar(max),
+@cep varchar(max))
+as
+begin
+	print @nome
+	print @numero
+	print @bairro
+	print @cep
+	
+	declare @sql varchar(max) = 'select * from Regiao r where 1 = 1'
 
-select * from Usuarios
+	Declare @Aspas Char(4)
+	Set @Aspas = ''''
+
+	if (@Nome is not null) begin	
+		set @sql += ' and r.Nome like'
+		set @sql += @Aspas
+		set @sql += ' "%'
+		set @sql += @Nome
+		set @sql += '%"'
+		set @sql += @Aspas
+
+	end
+
+	if (@numero is not null) begin	
+		set @sql += ' and r.Numero =' 
+		set @sql += cast(@numero as varchar(max))
+	end
+
+	if (@bairro is not null) begin	
+		set @sql += ' and r.Bairro like'
+		set @sql += @Aspas
+		set @sql += ' "%'
+		set @sql += @bairro
+		set @sql += '%"'
+		set @sql += @Aspas
+	end
+
+	if (@cep is not null) begin	
+		set @sql += ' and r.cep like "'
+		set @sql += @Aspas
+		set @sql += ' %'
+		set @sql += @cep
+		set @sql += '%"'
+		set @sql += @Aspas
+	end
+
+	print(@sql)
+	exec(@sql)
+end
+
+exec spConsultaAvancadaRegiao 'Jamil Zarif 2', null, null, null
+
+
+select * from Regiao where nome  =1
