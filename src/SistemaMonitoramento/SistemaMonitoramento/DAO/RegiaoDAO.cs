@@ -55,5 +55,18 @@ namespace SistemaMonitoramento.DAO
             else
                 return MontaModel(tabela.Rows[0]);
         }
+
+        public RegiaoViewModel ConsultaPorBairro(string bairro)
+        {
+            var u = new SqlParameter[]
+            {
+                new SqlParameter("Bairro", bairro),
+            };
+            var tabela = HelperDAO.ExecutaProcSelect("spConsulta_PorBairro", u);
+            if (tabela.Rows.Count == 0)
+                return null;
+            else
+                return MontaModel(tabela.Rows[0]);
+        }
     }
 }

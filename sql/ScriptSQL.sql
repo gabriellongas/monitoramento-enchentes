@@ -17,8 +17,8 @@ CREATE TABLE Usuarios (
 	Nome varchar(max) NOT NULL,
 	Email varchar(max) NOT NULL,
 	Senha varchar(max) NOT NULL,
-	Imagem varbinary(max) NULL,
 	DataCriacao date NOT NULL,
+	Imagem varbinary(max),
 	TipoUsuario int NOT NULL FOREIGN KEY REFERENCES TipoUser(id)
 );
 
@@ -114,15 +114,15 @@ create procedure spInsert_Usuarios
 	@Nome varchar(max),
 	@Email varchar(max),
 	@Senha varchar(max),
-	@Imagem varbinary(max),
-	@TipoUsuario int 
+	@TipoUsuario int,
+	@Imagem varbinary(max)
 )
 as
 begin
 	insert into Usuarios
-	(Nome, Email, Senha, Imagem, TipoUsuario)
+	(Nome, Email, Senha, TipoUsuario, DataCriacao, Imagem)
 	values
-	(@Nome, @Email, @Senha, @Imagem, @TipoUsuario)
+	(@Nome, @Email, @Senha, @TipoUsuario, GETDATE(), @Imagem)
 end
 GO
 
@@ -132,8 +132,8 @@ create procedure spUpdate_Usuarios
 	@Nome varchar(max),
 	@Email varchar(max),
 	@Senha varchar(max),
-	@Imagem varbinary(max),
-	@TipoUsuario int 
+	@TipoUsuario int,
+	@Imagem varbinary(max)
 )
 as
 begin
@@ -141,10 +141,12 @@ begin
 		Nome = @nome,
 		Email = @Email,
 		Senha = @Senha,
-		TipoUsuario = @TipoUsuario
+		TipoUsuario = @TipoUsuario,
+		Imagem = @Imagem
 	where Id = @id 
 end
 GO
+
 
 create procedure spConsulta_PorEmail
 (
@@ -184,6 +186,16 @@ begin
 end
 GO
 
+create procedure spConsulta_PorBairro
+(
+	@bairro varchar(max)
+)
+as
+begin
+	select * from Regiao where Bairro = @bairro
+end
+GO
+
 create procedure spInsert_Regiao
 (
 	@Nome varchar(max),
@@ -202,3 +214,5 @@ begin
 	(@Nome, @Endereco, @Numero, @Bairro, @Cidade, @Estado, @CEP)
 end
 GO
+
+select * from Usuarios

@@ -44,7 +44,8 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="col-5 float-left">
-                                            <img style="height:400px; width:300px;" id="Imagem" class="img-profile rounded" src="img/usuario.jpeg">
+                                            <img id="imagem" src="data:image/jpeg;base64,@Model.ImagemEmBase64" class="img-responsive"
+                                                style="height:400px; width:300px;" onchange="exibirImagem()" />
                                         </div>
                                         <label id="current_situation_label" class="col-5 float-left">
                                             <span class="m-0 font-weight-bold text-secondary">Nome: </span>@Model.Nome<br>
@@ -72,4 +73,16 @@
  document.getElementById("imgPreview").src = oFREvent.target.result;
  };
  
+</script>
+
+
+<script>
+ function exibirImagem() {
+    var oFReader = new FileReader(); 
+    oFReader.readAsDataURL(document.getElementById("Imagem").files[0]);
+    oFReader.onload = function (oFREvent) 
+    {
+        document.getElementById("imgPreview").src = oFREvent.target.result;
+    };
+ }
 </script>

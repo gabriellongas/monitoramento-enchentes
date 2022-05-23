@@ -6,8 +6,13 @@ using System.Collections.Generic;
 
 namespace SistemaMonitoramento.Controllers
 {
-    public class EscolhaController : Controller
+    public class EscolhaController : PadraoController<PadraoViewModel>
     {
+        public EscolhaController()
+        {
+            ExigeAutenticacao = true;
+        }
+        
         public IActionResult Form()
         {
             ListaRegioesParaView();

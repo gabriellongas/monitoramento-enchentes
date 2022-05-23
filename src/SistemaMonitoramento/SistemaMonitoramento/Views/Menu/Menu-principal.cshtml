@@ -1,5 +1,5 @@
 @using SistemaMonitoramento.Models
-@model List<RegiaoViewModel>
+@model int
 @{
     Layout = "_Layout";
 }
@@ -47,25 +47,34 @@
                             <div class="col-8">
                                 <!-- Bar Chart -->
                                 <div class="card shadow mb-4">
+                                    @{ 
+                                        var data = "";
+                                        foreach (string[] regiao in ViewBag.BairroComQtd)
+                                        {
+                                            data += regiao[0] + "+" + regiao[1] + "|";
+                                        }
+                                    }
 
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary">Top 10 - Registros de Enchentes dos últimos 12 meses</h6>
-                                        <div class="Filter">
-                                            <div class="dropdown show">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    Filtrar
-                                                </button>
-                                                <div class="dropdown-menu animated--fade-in " aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                    <a class="dropdown-item" href="#Hoje" onclick="chart_area_set(20)">Hoje</a>
-                                                    <a class="dropdown-item" href="#15" onclick="chart_area_set(40)">Últimos 15 dias</a>
-                                                    <a class="dropdown-item" href="#90" onclick="chart_area_set(50)">Último Trimestre</a>
-                                                    <a class="dropdown-item" href="#180" onclick="chart_area_set(60)">Último Semestre</a>
-                                                    <a class="dropdown-item" href="#365" onclick="chart_area_set(70)">Último Ano</a>
-                                                </div>
-                                            </div>
+                                <div id="datas_chart_bar" data-value="@data"></div>
+                                    
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Top 10 - Registros de Enchentes dos últimos 12 meses</h6>
+                                    <div class="Filter">
+                                        <div class="dropdown show">
+                                            <button class="btn btn-primary dropdown-toggle" onclick="open_chart_bar()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Filtrar
+                                            </button>
+                                        <div class="dropdown-menu animated--fade-in show" id="dropdown_bar_principal" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                            <a class="dropdown-item" href="#Hoje" onclick="chart_bar_set()"></a>
+                                            <a class="dropdown-item" href="#15" onclick="chart_bar_set(40)">Últimos 15 dias</a>
+                                            <a class="dropdown-item" href="#90" onclick="chart_bar_set(50)">Último Trimestre</a>
+                                            <a class="dropdown-item" href="#180" onclick="chart_bar_set(60)">Último Semestre</a>
+                                            <a class="dropdown-item" href="#365" onclick="chart_bar_set(70)">Último Ano</a>
                                         </div>
                                     </div>
-                                    <div class="card-body">
+                                </div>
+                            </div>                                   
+                            <div class="card-body">
                                         <div class="chart-bar">
                                             <canvas id="myBarChart"></canvas>
                                         </div>
@@ -117,14 +126,17 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="card-body ">
-                                <a class="nav-link float-right" style="height:50px" href="/Regiao/Create?">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-                                    </svg>
-                                </a>
+                                @if (Model == 1)
+                                {
+                                    <a class="nav-link float-right" style="height:50px" href="/Regiao/Create?">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                                        </svg>
+                                    </a>
+                                }
+
                                 <div class="table-responsive ">
                                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -134,10 +146,15 @@
                                                 <th>Bairro</th>
                                                 <th>CEP</th>
                                                 <th>Nível Atual</th>
-                                                <th colspan="2">Ação</th>
+                                                @if (Model == 1)
+                                                {
+                                                    <th colspan="2">Ação</th>
+                                                }
+                                        
                                             </tr>
                                         </thead>
-                                        @foreach(RegiaoViewModel regiao in Model)
+
+                                        @foreach(RegiaoViewModel regiao in ViewBag.Regioes)
                                         {
                                             <tbody>
                                                 <td>@regiao.Nome</td>
@@ -147,26 +164,31 @@
                                                 <td>
                                                     <a id="level_label" onload="level_set()" style="color: black;" class="nav-link bg-warning rounded" href="/Regiao/DashboardEnchente?id=@regiao.Id">High</a>
                                                 </td>
-                                                
-                                                <td class="col-1">
-                                                    <center>
-                                                        <a class="nav-link" href="javascript:apagarRegiao(@regiao.Id)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                                            </svg>
-                                                        </a>
-                                                    </center>
-                                                </td>
-                                                <td class="col-1">
-                                                    <center>
-                                                        <a class="nav-link" href="register-region.html">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                            </svg>
-                                                        </a>
-                                                    </center>
-                                                </td>
+
+                                                @if (Model == 1)
+                                                {
+                                                    <td class="col-1">
+                                                        <center>
+                                                            <a class="nav-link" href="javascript:apagarRegiao(@regiao.Id)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                                                </svg>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                    <td class="col-1">
+                                                        <center>
+                                                            <a class="nav-link" href="register-region.html">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                </svg>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                }
+    
+                                                                                                                                           
 
                                             </tbody>
                                         }                                                                              

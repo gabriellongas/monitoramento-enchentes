@@ -5,6 +5,8 @@ using SistemaMonitoramento.DAO;
 using SistemaMonitoramento.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 
 namespace SistemaMonitoramento.Controllers
@@ -18,10 +20,86 @@ namespace SistemaMonitoramento.Controllers
             NomeViewIndex = "Relacao";
             DAO = new UsuarioDAO();
         }
-        
+
+        public IActionResult Relacao()
+        {
+            CarregaViewBagHistorico(60);
+            
+            ViewBag.Usuarios = DAO.Listagem();
+
+            return View();
+        }
+
+        private void CarregaViewBagHistorico(int range)
+        {
+            ViewBag.Historico = TrazRegistrosHistoricos(range);
+        }
+
+        public IActionResult Perfil(int id)
+        {            
+            return View("Perfil", DAO.Consulta(id));
+        }
+
+        public List<string[]> TrazRegistrosHistoricos(int range)
+        {
+            DataTable tabela = HelperDAO.ExecutaProcSelect("sp_qtd_usuarios", CriaParametrosHistorico(range));
+
+            List<string[]> lista = new List<string[]>();
+
+            RegiaoDAO dao = new RegiaoDAO();
+
+            foreach (DataRow registro in tabela.Rows)
+            {
+                string[] vetor = new string[2];
+                vetor[0] = registro["DataCriacao"].ToString();
+                vetor[1] = registro["qtd_Usuarios"].ToString();
+
+                lista.Add(vetor);
+            }
+
+            return lista;
+
+        }
+
+        protected SqlParameter[] CriaParametrosHistorico(int range)
+        {
+            SqlParameter[] parametros = new SqlParameter[1];
+            parametros[0] = new SqlParameter("Range", range);
+
+            return parametros;
+        }
+
+        public override IActionResult Edit(int id)
+        {
+            if(HttpContext.Session.GetString("Admin").Equals("true"))
+            {
+                UsuarioViewModel u = DAO.Consulta(id);
+                ListaTipoUsersParaView();
+                ViewBag.Operacao = "A";
+
+                return View("Form", u);
+            }                
+
+            return RedirectToAction("Relacao");
+        }
+
+        protected void ListaTipoUsersParaView()
+        {
+            TipoUserDAO dao = new TipoUserDAO();
+            var tipoUsers = dao.Listagem();
+            List<SelectListItem> listaTipoUsers = new List<SelectListItem>();
+
+            listaTipoUsers.Add(new SelectListItem("Selecione um tipo de usuário...", "0"));
+            foreach (var tipoUser in tipoUsers)
+            {
+                SelectListItem item = new SelectListItem(tipoUser.Descricao, tipoUser.Id.ToString());
+                listaTipoUsers.Add(item);
+            }
+            ViewBag.TipoUsersEdit = listaTipoUsers;
+        }
+
         protected override void ValidaDados(UsuarioViewModel model, string operacao)
         {
-            base.ValidaDados(model, operacao);
 
             if (string.IsNullOrEmpty(model.Nome))
                 ModelState.AddModelError("Nome", "Preencha o nome!");
@@ -31,7 +109,9 @@ namespace SistemaMonitoramento.Controllers
             else if (model.Email.IndexOf("@") == -1 || model.Email.IndexOf(".") == -1)
                 ModelState.AddModelError("Email", "E-mail incorreto, falta uso do @ ou .");
 
-            if (((UsuarioDAO)DAO).ConsultaPorUsuario(model.Email) != null)
+            UsuarioDAO dao = new UsuarioDAO();
+
+            if (dao.ConsultaPorUsuario(model.Email) != null && operacao.Equals("I"))
                 ModelState.AddModelError("Email", "E-mail já cadastrado!");
 
             if (string.IsNullOrEmpty(model.Senha))
@@ -57,12 +137,13 @@ namespace SistemaMonitoramento.Controllers
             {
                 if (operacao == "A" && model.Imagem == null)
                 {
-                    UsuarioViewModel u = DAO.Consulta(model.Id);
+                    UsuarioViewModel u = dao.ConsultaPorUsuario(model.Email);
                     model.ImagemEmByte = u.ImagemEmByte;
                 }
-                else                
-                    model.ImagemEmByte = ConvertImageToByte(model.Imagem);                
+                else
+                    model.ImagemEmByte = ConvertImageToByte(model.Imagem);
             }
+
         }
 
         public byte[] ConvertImageToByte(IFormFile file)
@@ -77,14 +158,33 @@ namespace SistemaMonitoramento.Controllers
                 return null;
         }
 
-        public IActionResult Form()
+        public override IActionResult Save(UsuarioViewModel model, string Operacao)
         {
             try
             {
-                ViewBag.Operacao = "I";
-                UsuarioViewModel model = new UsuarioViewModel();
-                PreencheDadosParaView("I", model);
-                return View(NomeViewForm, model);
+                ValidaDados(model, Operacao);
+                if (ModelState.IsValid == false)
+                {
+                    ViewBag.Operacao = Operacao;
+                    PreencheDadosParaView(Operacao, model);
+                    return View(NomeViewForm, model);
+                }
+                else
+                {
+                    if (Operacao == "I")
+                        DAO.Insert(model);
+                    else
+                    {
+                        UsuarioViewModel u = ((UsuarioDAO)DAO).ConsultaPorUsuario(model.Email);
+                        model.Id = u.Id;
+                        DAO.Update(model);
+                    }                        
+
+                    if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
+                        return RedirectToAction("Index", "Login");
+
+                    return RedirectToAction("Relacao", "Usuario");
+                }
             }
             catch (Exception erro)
             {
@@ -92,35 +192,9 @@ namespace SistemaMonitoramento.Controllers
             }
         }
 
-        protected override void PreencheDadosParaView(string Operacao, UsuarioViewModel model)
-        {
-            base.PreencheDadosParaView(Operacao, model);
-            ListaTipoUsersParaView();
-        }
 
-        protected void ListaTipoUsersParaView()
-        {
-            TipoUserDAO dao = new TipoUserDAO();
-            var tipoUsers = dao.Listagem();
-            List<SelectListItem> listaTipoUsers = new List<SelectListItem>();
 
-            listaTipoUsers.Add(new SelectListItem("Selecione um tipo de usuário...", "0"));
-            foreach (var tipoUser in tipoUsers)
-            {
-                SelectListItem item = new SelectListItem(tipoUser.Descricao, tipoUser.Id.ToString());
-                listaTipoUsers.Add(item);
-            }
-            ViewBag.TipoUsers = listaTipoUsers;
-        }
 
-        public IActionResult Relacao()
-        {
-            return View(DAO.Listagem());
-        }
 
-        public IActionResult Perfil(int id)
-        {            
-            return View("Perfil", DAO.Consulta(id));
-        }
     }
 }

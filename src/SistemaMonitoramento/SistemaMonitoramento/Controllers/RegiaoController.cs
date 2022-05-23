@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaMonitoramento.DAO;
 using SistemaMonitoramento.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace SistemaMonitoramento.Controllers
 {
@@ -8,7 +12,6 @@ namespace SistemaMonitoramento.Controllers
     {
         public IActionResult Form()
         {
-            NomeViewIndex = "";
             return View();
         }
 
@@ -19,8 +22,21 @@ namespace SistemaMonitoramento.Controllers
         }
 
         public IActionResult DashboardEnchente(int id)
-        {            
+        {
+            CarregaViewBagHistoricoRegiao(200, id);
+            CarregaViewBagNiveis(200, id);      
+           
             return View("dashboard-enchente", DAO.Consulta(id));
+        }
+
+        private void CarregaViewBagNiveis(int range, int id)
+        {
+            ViewBag.Niveis = TrazRegistrosNiveis(range, id);
+        }
+
+        private void CarregaViewBagHistoricoRegiao(int range, int id)
+        {
+            ViewBag.HistoricoRegiao = TrazRegistrosHistoricos(range, id);
         }
 
         public override IActionResult Delete(int id)
@@ -73,6 +89,69 @@ namespace SistemaMonitoramento.Controllers
 
         }
 
+        public List<string[]> TrazRegistrosHistoricos(int dias, int idRegiao)
+        {
+            DataTable tabela = HelperDAO.ExecutaProcSelect("sp_historico", CriaParametrosHistorico(dias, idRegiao));
 
+            List<string[]> lista = new List<string[]>();
+
+            RegiaoDAO dao = new RegiaoDAO();
+
+            foreach (DataRow registro in tabela.Rows)
+            {
+                RegiaoViewModel regiao = dao.Consulta(idRegiao);
+                if (regiao != null)
+                {
+                    string[] vetor = new string[2];
+                    vetor[0] = registro["Nivel"].ToString();
+                    vetor[1] = registro["DataHora"].ToString();
+
+                    lista.Add(vetor);
+                }
+            }
+
+            return lista;
+
+        }
+
+        protected SqlParameter[] CriaParametrosHistorico(int range, int idRegiao)
+        {
+            SqlParameter[] parametros = new SqlParameter[2];
+            parametros[0] = new SqlParameter("Range", range);
+            parametros[1] = new SqlParameter("idRegiao", idRegiao);
+
+            return parametros;
+        }
+
+        public List<string[]> TrazRegistrosNiveis(int range, int idRegiao)
+        {
+            DataTable tabela = HelperDAO.ExecutaProcSelect("sp_niveis", CriaParametrosNiveis(range, idRegiao));
+
+            List<string[]> lista = new List<string[]>();
+
+            RegiaoDAO dao = new RegiaoDAO();
+
+            foreach (DataRow registro in tabela.Rows)
+            {
+                string[] vetor = new string[2];
+                vetor[0] = registro["Nivel"].ToString();
+                vetor[1] = registro["qtd_dados"].ToString();
+
+                lista.Add(vetor);
+                
+            }
+
+            return lista;
+
+        }
+
+        private SqlParameter[] CriaParametrosNiveis(int range, int idRegiao)
+        {
+            SqlParameter[] parametros = new SqlParameter[2];
+            parametros[0] = new SqlParameter("Range", range);
+            parametros[1] = new SqlParameter("idRegiao", idRegiao);
+
+            return parametros;
+        }
     }
 }

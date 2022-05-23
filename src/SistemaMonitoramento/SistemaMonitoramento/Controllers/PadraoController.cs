@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using SistemaMonitoramento.DAO;
 using SistemaMonitoramento.Models;
 using System;
@@ -11,7 +12,7 @@ namespace SistemaMonitoramento.Controllers
         protected bool GeraProximoId { get; set; } //somente para visualização
         protected string NomeViewIndex { get; set; } = "Index";
         protected string NomeViewForm { get; set; } = "Form";
-        protected bool ExigeAutenticacao { get; set; } = false;
+        protected bool ExigeAutenticacao { get; set; } = true;
 
         public virtual IActionResult Index()
         {
@@ -68,8 +69,7 @@ namespace SistemaMonitoramento.Controllers
                     if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
                         return RedirectToAction("Index", "Login");
 
-                    //Mudar quando tiver a tela para administrador editar os dados
-                    return RedirectToAction("Index", "Login");
+                    return RedirectToAction("Relacao", "Usuario");
                 }
             }
             catch (Exception erro)
@@ -87,7 +87,7 @@ namespace SistemaMonitoramento.Controllers
                 ModelState.AddModelError("Id", "Este registro não existe!");
         }
 
-        public IActionResult Edit(int id)
+        public virtual IActionResult Edit(int id)
         {
             try
             {
@@ -111,12 +111,29 @@ namespace SistemaMonitoramento.Controllers
         {
             try
             {
-                DAO.Delete(id);
-                return RedirectToAction(NomeViewIndex);
+                if(HelperControllers.VerificaStatusAdminLogado(HttpContext.Session))
+                {
+                    DAO.Delete(id);
+                    return RedirectToAction(NomeViewIndex);
+                }
+
+                return RedirectToAction("Index", "Login");
+
             }
             catch (Exception erro)
             {
                 return View("Error", new ErrorViewModel(erro.ToString()));
+            }
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (ExigeAutenticacao && !HelperControllers.VerificaUserLogado(HttpContext.Session))
+                context.Result = RedirectToAction("Index", "Login");
+            else
+            {
+                ViewBag.Logado = true;
+                base.OnActionExecuting(context);
             }
         }
     }

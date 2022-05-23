@@ -39,7 +39,7 @@ delete from Regiao where id = 1
 
 
 --Trigger para inserir novos sensores, checa se a região a ser inserido o sensor existe
-alter trigger trg_insere_sensor on Sensores
+create trigger trg_insere_sensor on Sensores
 instead of insert as
 begin
 	declare @idRegiao int = (select idRegiao from inserted)

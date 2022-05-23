@@ -14,5 +14,14 @@ namespace SistemaMonitoramento.Controllers
             else
                 return true;
         }
+
+        public static Boolean VerificaStatusAdminLogado(ISession session)
+        {
+            string StatusAdmin = session.GetString("Admin");
+            if (StatusAdmin == "true")
+                return true;
+            else
+                return false;
+        }
     }
 }
