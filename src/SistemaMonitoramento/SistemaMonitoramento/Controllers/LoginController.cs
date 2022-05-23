@@ -163,8 +163,6 @@ namespace SistemaMonitoramento.Controllers
                     UsuarioDAO dao = new UsuarioDAO();
                     if (Operacao == "I")
                         dao.Insert(model);
-                    else
-                        dao.Update(model);
 
                     if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
                         return RedirectToAction("Index", "Login");

@@ -21,12 +21,10 @@ namespace SistemaMonitoramento.Controllers
         {
             RegiaoDAO dao = new RegiaoDAO();
 
-            List<RegiaoViewModel> listaRegioes = dao.Listagem();
-
-            CarregaViewBagBairroComQtd(50, listaRegioes);
+            CarregaViewBagBairroComQtd(50);
             CarregaViewBagSensoresAtivos();
             
-            ViewBag.Regioes = listaRegioes;
+            ViewBag.Regioes = dao.Listagem();
             int tipoUsuario;
 
             string admin = HttpContext.Session.GetString("Admin");
@@ -45,9 +43,9 @@ namespace SistemaMonitoramento.Controllers
             ViewBag.SensoresAtivos = TrazRegistrosAtivos();
         }
 
-        private void CarregaViewBagBairroComQtd(int range, List<RegiaoViewModel> listaRegioes)
+        private void CarregaViewBagBairroComQtd(int range)
         {
-            ViewBag.BairroComQtd = TrazRegistrosTop10(range, listaRegioes);
+            ViewBag.BairroComQtd = TrazRegistrosTop10(range);
         }
 
         public IActionResult Sobre()
@@ -55,7 +53,7 @@ namespace SistemaMonitoramento.Controllers
             return View("Sobre");
         }
 
-        public List<string[]> TrazRegistrosTop10(int dias, List<RegiaoViewModel> regioes)
+        public List<string[]> TrazRegistrosTop10(int dias)
         {
             DataTable tabela = HelperDAO.ExecutaProcSelect("sp_top10_enchentes", CriaParametrosTop10(dias));
 

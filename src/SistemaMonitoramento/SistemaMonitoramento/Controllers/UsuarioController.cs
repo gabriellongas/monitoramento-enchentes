@@ -177,7 +177,7 @@ namespace SistemaMonitoramento.Controllers
                     {
                         UsuarioViewModel u = ((UsuarioDAO)DAO).ConsultaPorUsuario(model.Email);
                         model.Id = u.Id;
-                        DAO.Update(model);
+                        ((UsuarioDAO)DAO).UpdateAdmin(model);
                     }                        
 
                     if (HelperControllers.VerificaUserLogado(HttpContext.Session) == false)
