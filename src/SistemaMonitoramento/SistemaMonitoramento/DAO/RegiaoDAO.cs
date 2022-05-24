@@ -91,16 +91,15 @@ namespace SistemaMonitoramento.DAO
             HelperDAO.ExecutaProc("spUpdate_" + Tabela, CriaParametrosEdit(model));
         }
 
-        public List<RegiaoViewModel> ConsultaAvancadaRegiao(string via, int numero, string bairro, string cep)
+        public List<RegiaoViewModel> ConsultaAvancadaRegiao(string nome, string cidade, string estado)
         {
             RegiaoViewModel model = new RegiaoViewModel();
-            model.Nome = via;
-            model.Numero = numero;
-            model.Bairro = bairro;
-            model.CEP = cep;
-
+            model.Nome = nome;
+            model.Cidade = cidade;
+            model.Estado = estado;
 
             var tabela = HelperDAO.ExecutaProcSelect("spConsultaAvancada" + Tabela, CriaParametrosConsultaAvancada(model));
+
             List <RegiaoViewModel> lista = new List<RegiaoViewModel>();
             foreach (DataRow registro in tabela.Rows)
                 lista.Add(MontaModel(registro));
@@ -110,11 +109,10 @@ namespace SistemaMonitoramento.DAO
         protected SqlParameter[] CriaParametrosConsultaAvancada(RegiaoViewModel model)
         {
 
-            SqlParameter[] parametros = new SqlParameter[4];
+            SqlParameter[] parametros = new SqlParameter[3];
             parametros[0] = new SqlParameter("Nome", model.Nome);
-            parametros[1] = new SqlParameter("Numero", model.Numero);
-            parametros[2] = new SqlParameter("Bairro", model.Bairro);
-            parametros[3] = new SqlParameter("CEP", model.CEP);
+            parametros[1] = new SqlParameter("Cidade", model.Cidade);
+            parametros[2] = new SqlParameter("Estado", model.Estado);
 
             return parametros;
         }

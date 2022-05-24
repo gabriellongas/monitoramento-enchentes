@@ -1,0 +1,22 @@
+﻿@model List<RegiaoViewModel>
+
+<div class="table-responsive ">
+    <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cidade</th>
+                <th>Estado</th>      
+            </tr>
+        </thead>
+
+        @foreach(RegiaoViewModel regiao in @Model)
+        {
+            <tbody>
+                <td>@regiao.Nome</td>
+                <td>@regiao.Cidade </td>
+                <td>@regiao.Estado</td>
+            </tbody>
+        }                                                                              
+    </table>
+</div>

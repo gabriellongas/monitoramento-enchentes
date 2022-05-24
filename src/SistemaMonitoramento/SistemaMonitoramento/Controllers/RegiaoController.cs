@@ -244,7 +244,38 @@ namespace SistemaMonitoramento.Controllers
             }
         }
 
+        public IActionResult PesquisaAvancada()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception erro)
+            {
+                return View("Error", new ErrorViewModel(erro.Message));
+            }
 
+        }
 
+        public IActionResult ObtemDadosConsultaAvancada(string nome, string cidade, string estado)
+        {
+            try
+            {
+                
+                if (string.IsNullOrEmpty(nome))
+                    nome = "";
+                if (string.IsNullOrEmpty(cidade))
+                    cidade = "";
+                if (string.IsNullOrEmpty(estado))
+                    estado = "";
+                var lista = ((RegiaoDAO)DAO).ConsultaAvancadaRegiao(nome, cidade, estado);
+                ViewBag.TipoUsuario = HelperControllers.GetString(HttpContext.Session, "TipoUsuario");
+                return PartialView("pvGridRegiao", lista);
+            }
+            catch (Exception erro)
+            {
+                return Json(new { erro = true, msg = erro.Message });
+            }
+        }
     }
 }

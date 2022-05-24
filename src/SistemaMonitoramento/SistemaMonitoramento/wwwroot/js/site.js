@@ -6,13 +6,12 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 function aplicaFiltroConsultaAvancada() {
-    var vDescricao = document.getElementById('via').value;
-    var vNumero = document.getElementById('numero').value;
-    var vBairro = document.getElementById('bairro').value;
-    var vCep = document.getElementById('cep').value;
+    var vNome = document.getElementById('nome').value;
+    var vCidade = document.getElementById('cidade').value;
+    var vEstado = document.getElementById('estado').value;
     $.ajax({
-        url: "/jogo/ObtemDadosConsultaAvancada",
-        data: { descricao: vDescricao, numero: vNumero, bairro: vBairro, cep: vCep },
+        url: "/Regiao/ObtemDadosConsultaAvancada",
+        data: { nome: vNome, cidade: vCidade, estado: vEstado },
         success: function (dados) {
             if (dados.erro != undefined) {
                 alert(dados.msg);
