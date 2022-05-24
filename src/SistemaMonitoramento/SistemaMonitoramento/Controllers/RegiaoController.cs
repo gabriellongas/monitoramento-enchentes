@@ -84,11 +84,15 @@ namespace SistemaMonitoramento.Controllers
         {
             base.ValidaDados(model, operacao);
 
-            if (((RegiaoDAO)DAO).ConsultaPorNome(model.Nome) != null)
-                ModelState.AddModelError("Nome", "Região já cadastrada!");
-
             if (string.IsNullOrEmpty(model.Nome))
                 ModelState.AddModelError("Nome", "Preencha o nome!");
+            else
+            {
+                RegiaoViewModel regiaoPesquisada = ((RegiaoDAO)DAO).ConsultaPorNome(model.Nome);
+
+                if (regiaoPesquisada != null && regiaoPesquisada.Nome.Equals(model.Nome))
+                    ModelState.AddModelError("Nome", "Nome já cadastrado!");
+            }
 
             if (model.Numero <= 0)
                 ModelState.AddModelError("Numero", "Número inválido!");
@@ -100,10 +104,13 @@ namespace SistemaMonitoramento.Controllers
                 ModelState.AddModelError("Cidade", "Preencha a cidade!");
 
             if (string.IsNullOrEmpty(model.Estado))
-                ModelState.AddModelError("Endereco", "Preencha o endereço");
+                ModelState.AddModelError("Estado", "Preencha o estado");
 
             if (string.IsNullOrEmpty(model.CEP))
-                ModelState.AddModelError("Endereco", "Preencha o endereço");
+                ModelState.AddModelError("CEP", "Preencha o CEP");
+
+            if (string.IsNullOrEmpty(model.Bairro))
+                ModelState.AddModelError("Bairro", "Preencha o bairro");
         }
 
         public override IActionResult Save(RegiaoViewModel model, string Operacao)
